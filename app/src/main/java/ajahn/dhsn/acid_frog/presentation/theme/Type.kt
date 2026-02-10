@@ -1,4 +1,4 @@
-package ajahn.dhsn.acid_frog.ui.theme
+package ajahn.dhsn.acid_frog.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

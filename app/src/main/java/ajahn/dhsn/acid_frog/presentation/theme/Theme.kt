@@ -1,4 +1,4 @@
-package ajahn.dhsn.acid_frog.ui.theme
+package ajahn.dhsn.acid_frog.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
