@@ -4,5 +4,6 @@ data class Profile(
     val profileId: String,
     val profileName: String,
     //TODO maybe securely define all valid ingredients for easier comparison
-    val ingredients: List<String>
+    val ingredients: List<String>,
+    val isActive : Boolean
 )
