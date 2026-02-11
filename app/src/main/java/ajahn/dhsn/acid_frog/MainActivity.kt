@@ -2,8 +2,8 @@ package ajahn.dhsn.acid_frog
 
 import ajahn.dhsn.acid_frog.presentation.screens.Screen
 import ajahn.dhsn.acid_frog.presentation.screens.home.HomeScreen
-import ajahn.dhsn.acid_frog.presentation.screens.profiles.ProfileEditScreen
-import ajahn.dhsn.acid_frog.presentation.screens.profiles.ProfileManagementScreen
+import ajahn.dhsn.acid_frog.presentation.screens.profile_detail.ProfileEditScreen
+import ajahn.dhsn.acid_frog.presentation.screens.profile_list.ProfileManagementScreen
 import ajahn.dhsn.acid_frog.presentation.screens.scan.BarcodeScanScreen
 import ajahn.dhsn.acid_frog.presentation.screens.scan.ScanResultScreen
 import ajahn.dhsn.acid_frog.presentation.theme.AcidFrogTheme

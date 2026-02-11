@@ -54,4 +54,7 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    //Dagger Hilt for Dependency Injection
+    implementation(libs.dagger.hilt.android)
 }
