@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.devtools.ksp)
+    alias(libs.plugins.google.dagger.hilt.android)
 }
 
 android {
@@ -56,5 +58,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     //Dagger Hilt for Dependency Injection
-    implementation(libs.dagger.hilt.android)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    ksp(libs.hilt.compiler)
+
 }
