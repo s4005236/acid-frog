@@ -48,7 +48,6 @@ fun ProfileListItem(
         )
 
         Text(
-            style = Typography.bodyLarge,
             text = "${profile.profileId} ${profile.profileName}",
         )
     }
