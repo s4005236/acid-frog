@@ -1,35 +1,28 @@
 package ajahn.dhsn.acid_frog.presentation.screens.home
 
-import ajahn.dhsn.acid_frog.presentation.screens.Screen
+import ajahn.dhsn.acid_frog.BarcodeScanScreen
+import ajahn.dhsn.acid_frog.ProfileListScreen
 import ajahn.dhsn.acid_frog.presentation.screens.home.components.TopBarHome
 import ajahn.dhsn.acid_frog.presentation.theme.Typography
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 /**
@@ -60,7 +53,7 @@ fun HomeScreen(
                     Text(text = "Profile verwalten", style = Typography.titleLarge)
                     ElevatedButton(
                         onClick = {
-                            navController.navigate(Screen.ProfileManagementScreen.route)
+                            navController.navigate(ProfileListScreen)
                         }, modifier = Modifier.size(200.dp)
                     ) {
                         Icon(
@@ -79,7 +72,7 @@ fun HomeScreen(
                     Text(text = "Produkte scannen", style = Typography.titleLarge)
                     Button(
                         onClick = {
-                            navController.navigate(Screen.BarcodeScanScreen.route)
+                            navController.navigate(BarcodeScanScreen)
                         }, modifier = Modifier.size(200.dp)
                     ) {
                         Icon(

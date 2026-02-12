@@ -3,10 +3,7 @@ package ajahn.dhsn.acid_frog.presentation.screens.profile_list
 import ajahn.dhsn.acid_frog.domain.Profile
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 
@@ -14,7 +11,6 @@ import jakarta.inject.Inject
 class ProfileListViewModel @Inject constructor(
     //TODO inject needed UseCases
     //private val getProfilesUseCase: GetProfilesUseCase
-    //private val savedStateHandle : SavedStateHandle
 ) : ViewModel() {
 
     private val _state = mutableStateOf(ProfileListState())
@@ -22,8 +18,6 @@ class ProfileListViewModel @Inject constructor(
 
     init {
         getProfiles()
-        println(state)
-        val x = 0
     }
 
     private fun getProfiles() {
