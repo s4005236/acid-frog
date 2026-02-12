@@ -1,7 +1,9 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_list
 
+import ajahn.dhsn.acid_frog.presentation.screens.profile_list.components.FloatingActionButtonProfileList
 import ajahn.dhsn.acid_frog.presentation.screens.profile_list.components.ProfileListItem
 import ajahn.dhsn.acid_frog.presentation.screens.profile_list.components.TopBarProfileList
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 
@@ -23,7 +26,11 @@ fun ProfileManagementScreen(
     Scaffold(
         topBar = {
             TopBarProfileList()
-        }) { innerPadding ->
+        },
+        floatingActionButton = {
+            FloatingActionButtonProfileList()
+        }
+        ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -39,19 +46,6 @@ fun ProfileManagementScreen(
                     })
                 }
             }
-
-
-//            if(state.error.isNotBlank()){
-//                Text(
-//                    text = state.error,
-//                    color = MaterialTheme.colorScheme.error,
-//                    textAlign = TextAlign.Center,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(horizontal = 20.dp)
-//                        .align(Alignment.Center)
-//                )
-//            }
         }
     }
 
