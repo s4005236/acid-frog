@@ -35,7 +35,7 @@ fun HomeScreen(
 ) {
     Scaffold(
         topBar = {
-            TopBarHome()
+            TopBarHome("Acid Frog")
         }) { innerPadding ->
         Box(
             contentAlignment = Alignment.Center,

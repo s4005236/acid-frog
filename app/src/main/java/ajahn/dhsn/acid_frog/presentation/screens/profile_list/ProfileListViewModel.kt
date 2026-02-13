@@ -1,5 +1,6 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_list
 
+import ajahn.dhsn.acid_frog.domain.Ingredient
 import ajahn.dhsn.acid_frog.domain.Profile
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -25,9 +26,12 @@ class ProfileListViewModel @Inject constructor(
         //FIXME: this is a dummy list, change logic once domain layer is implemented
 
         val dummyProfileList: List<Profile> = listOf(
-            Profile("1", "Alice", listOf("garlic", "cpu"), true),
-            Profile("2", "Bob", listOf("beef", "value"),false),
-            Profile("3", "Cameron", listOf("wall", "paper",),true)
+            Profile("1", "Alice", listOf(
+                Ingredient(id = "1", ingredientName = "garlic", isActive = true),
+                Ingredient(id = "5", ingredientName = "salt", isActive = true)
+            ), true),
+            Profile("2", "Bob", emptyList(),false),
+            Profile("3", "Cameron", emptyList(),true)
         )
 
         _state.value = ProfileListState(profiles = dummyProfileList)

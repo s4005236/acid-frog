@@ -1,9 +1,9 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_list
 
 import ajahn.dhsn.acid_frog.ProfileDetailScreen
+import ajahn.dhsn.acid_frog.presentation.screens.home.components.TopBarHome
 import ajahn.dhsn.acid_frog.presentation.screens.profile_list.components.FloatingActionButtonProfileList
 import ajahn.dhsn.acid_frog.presentation.screens.profile_list.components.ProfileListItem
-import ajahn.dhsn.acid_frog.presentation.screens.profile_list.components.TopBarProfileList
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,7 +32,7 @@ fun ProfileListScreen(
 
     Scaffold(
         topBar = {
-            TopBarProfileList()
+            TopBarHome("Profile verwalten")
         },
         floatingActionButton = {
             FloatingActionButtonProfileList()

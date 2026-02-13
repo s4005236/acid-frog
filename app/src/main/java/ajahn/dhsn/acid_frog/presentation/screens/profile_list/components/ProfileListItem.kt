@@ -41,7 +41,7 @@ fun ProfileListItem(
 
         Text(
             style = Typography.titleMedium,
-            text = "${profile.id} ${profile.profileName}"
+            text = profile.profileName
         )
     }
 }
