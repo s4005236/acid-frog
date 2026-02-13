@@ -18,7 +18,7 @@ fun FloatingActionButtonProfileList(){
     ExtendedFloatingActionButton(
         onClick = {
             //TODO navigate to detail screen to create new profile
-            Toast.makeText(context, "About to Create new profile", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Create new profile!", Toast.LENGTH_SHORT).show()
         },
         icon = { Icon(Icons.Default.Add, "Add Profile") },
         text = { Text(text = "Profil hinzufügen") },
