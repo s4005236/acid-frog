@@ -47,8 +47,8 @@ fun ProfileListScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                items(state.profiles) { profile ->
-                    ProfileListItem(profile = profile, onItemClick = {
+                items(state.appProfiles) { profile ->
+                    ProfileListItem(appProfile = profile, onItemClick = {
 
                         navController.navigate(ProfileDetailScreen(
                             profileId = profile.id

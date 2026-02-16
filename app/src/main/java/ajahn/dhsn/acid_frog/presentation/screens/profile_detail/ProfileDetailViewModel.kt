@@ -1,8 +1,7 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_detail
 
-import ajahn.dhsn.acid_frog.common.Constants
-import ajahn.dhsn.acid_frog.domain.Ingredient
-import ajahn.dhsn.acid_frog.domain.Profile
+import ajahn.dhsn.acid_frog.domain.model.AppIngredient
+import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -27,17 +26,19 @@ class ProfileDetailViewModel @Inject constructor(
 
         //FIXME: this is a dummy element, change logic once domain layer is implemented
 
-        val dummyProfile: Profile = Profile(
+        val dummyAppProfile: AppProfile = AppProfile(
             "1", "Alice", listOf(
-                Ingredient(id = "1", ingredientName = "pepper", isActive = true),
-                Ingredient(id = "2", ingredientName = "basil", isActive = true),
-                Ingredient(id = "3", ingredientName = "carrot", isActive = false),
-                Ingredient(id = "4", ingredientName = "parsley", isActive = true),
-                Ingredient(id = "5", ingredientName = "celery", isActive = false),
+                AppIngredient(id = "1", ingredientName = "pepper", isActive = true),
+                AppIngredient(id = "2", ingredientName = "basil", isActive = true),
+                AppIngredient(id = "3", ingredientName = "carrot", isActive = false),
+                AppIngredient(id = "4", ingredientName = "parsley", isActive = true),
+                AppIngredient(id = "5", ingredientName = "celery", isActive = false),
             ), true
         )
 
-        _state.value = ProfileDetailState(profile = dummyProfile)
+        _state.value = state.value.copy(
+            appProfile = dummyAppProfile
+        )
     }
 
     fun createProfile(){

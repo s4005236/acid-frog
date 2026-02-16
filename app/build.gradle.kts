@@ -69,6 +69,13 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
 
+    //retrofit
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.converter)
+
+    //json convertion
+    implementation(libs.gson)
+
     // Room
     implementation(libs.androidx.room.common.jvm)
 

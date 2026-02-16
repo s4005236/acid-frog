@@ -46,17 +46,16 @@ fun ProfileDetailScreen(
     profileId: String
 ) {
     viewModel.getProfile(profileId)
-    val state = viewModel.state.value
 
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
 
     val selectOptions = listOf("Alle aktivieren", "Alle deaktivieren")
 
-    var profileName by remember { mutableStateOf(state.profile?.profileName ?: "") }
-    var profileIsActive by remember { mutableStateOf(state.profile?.isActive ?: false) }
+    var profileName by remember { mutableStateOf(viewModel.state.value.appProfile?.profileName ?: "") }
+    var profileIsActive by remember { mutableStateOf(viewModel.state.value.appProfile?.isActive ?: false) }
     var profileIngredientList by remember {
-        mutableStateOf((state.profile?.ingredients ?: emptyList()))
+        mutableStateOf(viewModel.state.value.appProfile?.appIngredients ?: emptyList())
     }
 
     Scaffold(topBar = {

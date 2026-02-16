@@ -1,6 +1,6 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_list.components
 
-import ajahn.dhsn.acid_frog.domain.Profile
+import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.presentation.theme.Typography
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,15 +20,15 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ProfileListItem(
-    profile: Profile,
-    onItemClick: (Profile) -> Unit
+    appProfile: AppProfile,
+    onItemClick: (AppProfile) -> Unit
 ) {
-    var isActiveButtonState by remember { mutableStateOf(profile.isActive) }
+    var isActiveButtonState by remember { mutableStateOf(appProfile.isActive) }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onItemClick(profile) }
+            .clickable { onItemClick(appProfile) }
             .padding(20.dp),
         horizontalArrangement = Arrangement
             .spacedBy(20.dp),
@@ -41,7 +41,7 @@ fun ProfileListItem(
 
         Text(
             style = Typography.titleMedium,
-            text = profile.profileName
+            text = appProfile.profileName
         )
     }
 }

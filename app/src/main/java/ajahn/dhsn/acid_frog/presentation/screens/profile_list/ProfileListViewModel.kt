@@ -1,7 +1,7 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_list
 
-import ajahn.dhsn.acid_frog.domain.Ingredient
-import ajahn.dhsn.acid_frog.domain.Profile
+import ajahn.dhsn.acid_frog.domain.model.AppIngredient
+import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -25,15 +25,15 @@ class ProfileListViewModel @Inject constructor(
 
         //FIXME: this is a dummy list, change logic once domain layer is implemented
 
-        val dummyProfileList: List<Profile> = listOf(
-            Profile("1", "Alice", listOf(
-                Ingredient(id = "1", ingredientName = "garlic", isActive = true),
-                Ingredient(id = "5", ingredientName = "salt", isActive = true)
+        val dummyAppProfileLists: List<AppProfile> = listOf(
+            AppProfile("1", "Alice", listOf(
+                AppIngredient(id = "1", ingredientName = "garlic", isActive = true),
+                AppIngredient(id = "5", ingredientName = "salt", isActive = true)
             ), true),
-            Profile("2", "Bob", emptyList(),false),
-            Profile("3", "Cameron", emptyList(),true)
+            AppProfile("2", "Bob", emptyList(),false),
+            AppProfile("3", "Cameron", emptyList(),true)
         )
 
-        _state.value = ProfileListState(profiles = dummyProfileList)
+        _state.value = ProfileListState(appProfiles = dummyAppProfileLists)
     }
 }
