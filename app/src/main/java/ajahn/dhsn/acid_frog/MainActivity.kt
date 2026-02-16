@@ -1,10 +1,10 @@
 package ajahn.dhsn.acid_frog
 
+import ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_result_screen.BarcodeScanResultScreen
 import ajahn.dhsn.acid_frog.presentation.screens.home.HomeScreen
 import ajahn.dhsn.acid_frog.presentation.screens.profile_detail.ProfileDetailScreen
 import ajahn.dhsn.acid_frog.presentation.screens.profile_list.ProfileListScreen
-import ajahn.dhsn.acid_frog.presentation.screens.scan.BarcodeScanScreen
-import ajahn.dhsn.acid_frog.presentation.screens.scan.ScanResultScreen
+import ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_screen.BarcodeScanScreen
 import ajahn.dhsn.acid_frog.presentation.theme.AcidFrogTheme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -44,8 +44,10 @@ class MainActivity : ComponentActivity() {
                     composable<BarcodeScanScreen>{
                         BarcodeScanScreen(navController = navController)
                     }
-                    composable<ScanResultScreen>{
-                        ScanResultScreen(navController = navController)
+                    composable<BarcodeScanResultScreen>{ backStackEntry ->
+                        val args = backStackEntry.toRoute<BarcodeScanResultScreen>()
+
+                        BarcodeScanResultScreen(navController = navController, barcode = args.barcode)
                     }
                 }
             }
@@ -64,4 +66,6 @@ data class ProfileDetailScreen(
 @Serializable
 object BarcodeScanScreen
 @Serializable
-object ScanResultScreen
+data class BarcodeScanResultScreen(
+    val barcode : String
+)

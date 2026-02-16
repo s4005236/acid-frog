@@ -72,6 +72,9 @@ dependencies {
     // Room
     implementation(libs.androidx.room.common.jvm)
 
+    //Google Barcode Scanner
+    implementation(libs.play.services.code.scanner)
+
     implementation(libs.kotlinx.serialization.json)
 
     // Tests

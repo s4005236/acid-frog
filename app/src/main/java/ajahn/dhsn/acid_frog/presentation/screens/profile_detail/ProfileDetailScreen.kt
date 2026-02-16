@@ -1,9 +1,7 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_detail
 
-import ajahn.dhsn.acid_frog.domain.Ingredient
 import ajahn.dhsn.acid_frog.presentation.screens.home.components.TopBarHome
 import ajahn.dhsn.acid_frog.presentation.screens.profile_detail.components.FloatingActionButtonProfileDetail
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,12 +32,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -50,13 +45,13 @@ fun ProfileDetailScreen(
     viewModel: ProfileDetailViewModel = hiltViewModel(),
     profileId: String
 ) {
+    viewModel.getProfile(profileId)
     val state = viewModel.state.value
+
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
 
     val selectOptions = listOf("Alle aktivieren", "Alle deaktivieren")
-
-    viewModel.getProfile(profileId)
 
     var profileName by remember { mutableStateOf(state.profile?.profileName ?: "") }
     var profileIsActive by remember { mutableStateOf(state.profile?.isActive ?: false) }

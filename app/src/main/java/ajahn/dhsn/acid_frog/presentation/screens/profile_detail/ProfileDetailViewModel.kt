@@ -21,9 +21,6 @@ class ProfileDetailViewModel @Inject constructor(
     val state: State<ProfileDetailState> = _state
 
     init {
-        savedStateHandle.get<String>(Constants.PARAM_PROFILE_ID)?.let { profileId ->
-            getProfile(profileId)
-        }
     }
 
     fun getProfile(profileId: String) {
