@@ -1,47 +1,71 @@
 package ajahn.dhsn.acid_frog
 
+import ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_result_screen.BarcodeScanResultScreen
+import ajahn.dhsn.acid_frog.presentation.screens.home.HomeScreen
+import ajahn.dhsn.acid_frog.presentation.screens.profile_detail.ProfileDetailScreen
+import ajahn.dhsn.acid_frog.presentation.screens.profile_list.ProfileListScreen
+import ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_screen.BarcodeScanScreen
+import ajahn.dhsn.acid_frog.presentation.theme.AcidFrogTheme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import ajahn.dhsn.acid_frog.ui.theme.AcidFrogTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.Serializable
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             AcidFrogTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination = HomeScreen
+                ){
+                    composable<HomeScreen>{
+                        HomeScreen(navController = navController)
+                    }
+                    composable<ProfileListScreen>{
+                        ProfileListScreen(navController = navController)
+                    }
+                    composable<ProfileDetailScreen>{ backStackEntry ->
+                        val args = backStackEntry.toRoute<ProfileDetailScreen>()
+
+                        ProfileDetailScreen(navController = navController, profileId = args.profileId)
+                    }
+                    composable<BarcodeScanScreen>{
+                        BarcodeScanScreen(navController = navController)
+                    }
+                    composable<BarcodeScanResultScreen>{ backStackEntry ->
+                        val args = backStackEntry.toRoute<BarcodeScanResultScreen>()
+
+                        BarcodeScanResultScreen(navController = navController, barcode = args.barcode)
+                    }
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AcidFrogTheme {
-        Greeting("Android")
-    }
-}
+@Serializable
+object HomeScreen
+@Serializable
+object ProfileListScreen
+@Serializable
+data class ProfileDetailScreen(
+    val profileId: String
+)
+@Serializable
+object BarcodeScanScreen
+@Serializable
+data class BarcodeScanResultScreen(
+    val barcode : String
+)
