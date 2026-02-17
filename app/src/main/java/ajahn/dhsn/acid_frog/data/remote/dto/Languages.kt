@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName
 
 data class Languages(
     @SerializedName("en:arabic")
-    val enArabic: Int,
+    val enArabic: Int = 0,
     @SerializedName("en:dutch")
-    val enDutch: Int,
+    val enDutch: Int = 0,
     @SerializedName("en:english")
-    val enEnglish: Int,
+    val enEnglish: Int = 0,
     @SerializedName("en:french")
-    val enFrench: Int,
+    val enFrench: Int = 0,
     @SerializedName("en:german")
-    val enGerman: Int,
+    val enGerman: Int = 0,
     @SerializedName("en:italian")
-    val enItalian: Int,
+    val enItalian: Int = 0,
     @SerializedName("en:romanian")
-    val enRomanian: Int
+    val enRomanian: Int = 0
 )

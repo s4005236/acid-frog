@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Components(
     @SerializedName("negative")
-    val negative: List<Negative>,
+    val negative: List<Negative> = listOf(),
     @SerializedName("positive")
-    val positive: List<Positive>
+    val positive: List<Positive> = listOf()
 )

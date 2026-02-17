@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class Nutrition(
     @SerializedName("display")
-    val display: DisplayXX,
+    val display: DisplayXX = DisplayXX(),
     @SerializedName("small")
-    val small: SmallXX,
+    val small: SmallXX = SmallXX(),
     @SerializedName("thumb")
-    val thumb: ThumbXX
+    val thumb: ThumbXX = ThumbXX()
 )

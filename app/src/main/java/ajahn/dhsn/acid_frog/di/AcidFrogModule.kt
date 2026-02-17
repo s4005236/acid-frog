@@ -4,7 +4,6 @@ import ajahn.dhsn.acid_frog.common.Constants
 import ajahn.dhsn.acid_frog.data.remote.OpenFoodFactsApi
 import ajahn.dhsn.acid_frog.data.repository.ProductRepositoryImpl
 import ajahn.dhsn.acid_frog.domain.repository.ProductRepository
-import androidx.compose.ui.unit.Constraints
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

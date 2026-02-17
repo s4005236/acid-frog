@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 
 data class Completeness(
     @SerializedName("general_information")
-    val generalInformation: String,
+    val generalInformation: String = "",
     @SerializedName("ingredients")
-    val ingredients: String,
+    val ingredients: String = "",
     @SerializedName("nutrition")
-    val nutrition: String,
+    val nutrition: String = "",
     @SerializedName("overall")
-    val overall: String,
+    val overall: String = "",
     @SerializedName("packaging")
-    val packaging: String
+    val packaging: String = ""
 )

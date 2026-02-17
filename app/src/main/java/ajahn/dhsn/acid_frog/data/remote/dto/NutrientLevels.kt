@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class NutrientLevels(
     @SerializedName("fat")
-    val fat: String,
+    val fat: String = "",
     @SerializedName("salt")
-    val salt: String,
+    val salt: String = "",
     @SerializedName("saturated-fat")
-    val saturatedFat: String,
+    val saturatedFat: String = "",
     @SerializedName("sugars")
-    val sugars: String
+    val sugars: String = ""
 )

@@ -5,21 +5,21 @@ import com.google.gson.annotations.SerializedName
 
 data class Source(
     @SerializedName("fields")
-    val fields: List<String>,
+    val fields: List<String> = listOf(),
     @SerializedName("id")
-    val id: String,
+    val id: String = "",
     @SerializedName("images")
-    val images: List<Any>,
+    val images: List<Any> = listOf(),
     @SerializedName("import_t")
-    val importT: Int,
+    val importT: Int = 0,
     @SerializedName("manufacturer")
-    val manufacturer: Int,
+    val manufacturer: Int = 0,
     @SerializedName("name")
-    val name: String,
+    val name: String = "",
     @SerializedName("source_licence")
-    val sourceLicence: String,
+    val sourceLicence: String = "",
     @SerializedName("source_licence_url")
-    val sourceLicenceUrl: String,
+    val sourceLicenceUrl: String = "",
     @SerializedName("url")
-    val url: String
+    val url: String = ""
 )

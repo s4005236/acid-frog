@@ -1,7 +1,8 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_detail
 
+import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.presentation.screens.home.components.TopBarHome
-import ajahn.dhsn.acid_frog.presentation.screens.profile_detail.components.FloatingActionButtonProfileDetail
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,8 +17,12 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -49,19 +54,42 @@ fun ProfileDetailScreen(
 
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
-
     val selectOptions = listOf("Alle aktivieren", "Alle deaktivieren")
 
-    var profileName by remember { mutableStateOf(viewModel.state.value.appProfile?.profileName ?: "") }
-    var profileIsActive by remember { mutableStateOf(viewModel.state.value.appProfile?.isActive ?: false) }
-    var profileIngredientList by remember {
-        mutableStateOf(viewModel.state.value.appProfile?.appIngredients ?: emptyList())
+    var profileId by remember { mutableStateOf(viewModel.state.value.appProfile?.id ?: "-1") }
+    var profileName by remember {
+        mutableStateOf(
+            viewModel.state.value.appProfile?.profileName ?: ""
+        )
+    }
+    var profileAllergenList by remember {
+        mutableStateOf(
+            viewModel.state.value.appProfile?.allergens ?: emptyList()
+        )
+    }
+    var profileIsActive by remember {
+        mutableStateOf(
+            viewModel.state.value.appProfile?.isActive ?: false
+        )
     }
 
     Scaffold(topBar = {
         TopBarHome("Profil bearbeiten")
     }, floatingActionButton = {
-        FloatingActionButtonProfileDetail()
+        ExtendedFloatingActionButton(
+            onClick = {
+                viewModel.saveProfile(
+                    AppProfile(
+                        id = profileId,
+                        profileName = profileName,
+                        allergens = profileAllergenList,
+                        isActive = profileIsActive,
+                    )
+                )
+            },
+            icon = { Icon(Icons.Default.Add, "Save Profile") },
+            text = { Text(text = "Profil speichern") },
+        )
     }) { innerPadding ->
         Box(
             modifier = Modifier
@@ -130,24 +158,23 @@ fun ProfileDetailScreen(
                             modifier = Modifier
                                 .fillMaxSize()
                         ) {
-                            items(profileIngredientList) { ingredient ->
+                            items(viewModel.state.value.allergens) { allergen ->
+                                //FIXME input all nutrients, activate if in profile
                                 Button(
                                     onClick = {
-                                        profileIngredientList =
-                                            profileIngredientList.map { ing ->
-                                                if (ing.id == ingredient.id)
-                                                    ing.copy(isActive = !ing.isActive)
-                                                else
-                                                    ing
-                                            }
+                                        if (profileAllergenList.contains(allergen)) {
+                                            profileAllergenList -= allergen
+                                        } else {
+                                            profileAllergenList += allergen
+                                        }
                                     },
                                     modifier = Modifier.padding(2.dp),
-                                    colors = if (ingredient.isActive)
+                                    colors = if (profileAllergenList.contains(allergen))
                                         ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                                     else
                                         ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary)
                                 ) {
-                                    Text(ingredient.ingredientName)
+                                    Text(allergen)
                                 }
                             }
                         }

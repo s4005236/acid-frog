@@ -5,15 +5,15 @@ import com.google.gson.annotations.SerializedName
 
 data class Thumb(
     @SerializedName("ar")
-    val ar: String,
+    val ar: String = "",
     @SerializedName("de")
-    val de: String,
+    val de: String = "",
     @SerializedName("en")
-    val en: String,
+    val en: String = "",
     @SerializedName("fr")
-    val fr: String,
+    val fr: String = "",
     @SerializedName("nl")
-    val nl: String,
+    val nl: String = "",
     @SerializedName("ro")
-    val ro: String
+    val ro: String = ""
 )

@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class Accuracy(
     @SerializedName("overall")
-    val overall: String
+    val overall: String = ""
 )

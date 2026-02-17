@@ -5,23 +5,23 @@ import com.google.gson.annotations.SerializedName
 
 data class Ingredient(
     @SerializedName("ciqual_food_code")
-    val ciqualFoodCode: String,
+    val ciqualFoodCode: String = "",
     @SerializedName("ecobalyse_code")
-    val ecobalyseCode: String,
+    val ecobalyseCode: String = "",
     @SerializedName("id")
-    val id: String,
+    val id: String = "",
     @SerializedName("is_in_taxonomy")
-    val isInTaxonomy: Int,
+    val isInTaxonomy: Int = 0,
     @SerializedName("percent_estimate")
-    val percentEstimate: Int,
+    val percentEstimate: Int = 0,
     @SerializedName("percent_max")
-    val percentMax: Int,
+    val percentMax: Int = 0,
     @SerializedName("percent_min")
-    val percentMin: Int,
+    val percentMin: Int = 0,
     @SerializedName("text")
-    val text: String,
+    val text: String = "",
     @SerializedName("vegan")
-    val vegan: String,
+    val vegan: String = "",
     @SerializedName("vegetarian")
-    val vegetarian: String
+    val vegetarian: String = ""
 )

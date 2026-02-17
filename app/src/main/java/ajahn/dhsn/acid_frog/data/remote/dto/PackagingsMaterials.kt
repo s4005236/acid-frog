@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class PackagingsMaterials(
     @SerializedName("all")
-    val all: All,
+    val all: All = All(),
     @SerializedName("en:plastic")
-    val enPlastic: EnPlastic
+    val enPlastic: EnPlastic = EnPlastic()
 )

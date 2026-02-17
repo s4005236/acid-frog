@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class PackagingXXX(
     @SerializedName("display")
-    val display: DisplayXXX,
+    val display: DisplayXXX = DisplayXXX(),
     @SerializedName("small")
-    val small: SmallXXX,
+    val small: SmallXXX = SmallXXX(),
     @SerializedName("thumb")
-    val thumb: ThumbXXX
+    val thumb: ThumbXXX = ThumbXXX()
 )

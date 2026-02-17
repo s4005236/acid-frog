@@ -4,6 +4,7 @@ import ajahn.dhsn.acid_frog.domain.model.AppProfile
 
 data class ProfileDetailState(
     val isLoading: Boolean = false,
+    val allergens: List<String> = emptyList(),
     val appProfile: AppProfile? = null,
     val error: String = ""
 )

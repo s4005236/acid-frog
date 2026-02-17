@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class SizesXXXXXXXXXXXXXXXX(
     @SerializedName("full")
-    val full: Full,
+    val full: Full = Full(),
     @SerializedName("100")
-    val x100: X100,
+    val x100: X100 = X100(),
     @SerializedName("400")
-    val x400: X100
+    val x400: X100 = X100()
 )

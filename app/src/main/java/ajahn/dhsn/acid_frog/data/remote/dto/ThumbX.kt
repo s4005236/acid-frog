@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class ThumbX(
     @SerializedName("en")
-    val en: String
+    val en: String = ""
 )

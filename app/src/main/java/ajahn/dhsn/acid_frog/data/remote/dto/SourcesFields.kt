@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class SourcesFields(
     @SerializedName("org-gs1")
-    val orgGs1: OrgGs1
+    val orgGs1: OrgGs1 = OrgGs1()
 )

@@ -1,8 +1,7 @@
 package ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_result_screen
 
-import ajahn.dhsn.acid_frog.common.Resource
 import ajahn.dhsn.acid_frog.data.remote.dto.toAppProduct
-import ajahn.dhsn.acid_frog.domain.model.AppProduct
+import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.domain.repository.ProductRepository
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -13,8 +12,6 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
-import java.io.IOException
 
 @HiltViewModel
 class BarcodeScanResultViewModel @Inject constructor(
@@ -28,24 +25,18 @@ class BarcodeScanResultViewModel @Inject constructor(
     }
 
     fun getProduct(productBarcode: String) {
+        //TODO this should be restructured into "getScanResult"
+
         viewModelScope.launch {
-            _state.value = BarcodeScanResultState(
-                isLoading = true
-            )
-            try {
-                _state.value = BarcodeScanResultState(
-                    appProduct = productRepository.getProductByCode(productBarcode).toAppProduct(),
-                    isLoading = false
-                )
-            } catch (e: HttpException) {
-                _state.value = BarcodeScanResultState(
-                    isLoading = false,
-                    error = e.localizedMessage ?: "An unexpected error occured"
-                )
-            } catch (e: IOException) {
-                _state.value = BarcodeScanResultState(
-                    error = "Couldn't reach server. Check your internet connection."
-                )
+            withContext(Dispatchers.IO) {
+                //state loading
+                //val appProduct = productRepository.getProductByCode(productBarcode).toAppProduct()
+                //val appProfiles : List<AppProfile> = emptyList()
+                //val appProfile =
+
+                //fun
+
+                //state data , state loading = false
             }
         }
     }

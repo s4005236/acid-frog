@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class Adjustments(
     @SerializedName("origins_of_ingredients")
-    val originsOfIngredients: OriginsOfIngredients,
+    val originsOfIngredients: OriginsOfIngredients = OriginsOfIngredients(),
     @SerializedName("packaging")
-    val packaging: Packaging,
+    val packaging: Packaging = Packaging(),
     @SerializedName("production_system")
-    val productionSystem: ProductionSystem,
+    val productionSystem: ProductionSystem = ProductionSystem(),
     @SerializedName("threatened_species")
-    val threatenedSpecies: ThreatenedSpecies
+    val threatenedSpecies: ThreatenedSpecies = ThreatenedSpecies()
 )

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Full(
     @SerializedName("h")
-    val h: Int,
+    val h: Int = 0,
     @SerializedName("w")
-    val w: Int
+    val w: Int = 0
 )

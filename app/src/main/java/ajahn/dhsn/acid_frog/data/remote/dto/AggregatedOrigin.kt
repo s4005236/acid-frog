@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class AggregatedOrigin(
     @SerializedName("epi_score")
-    val epiScore: Int,
+    val epiScore: Int = 0,
     @SerializedName("origin")
-    val origin: String,
+    val origin: String = "",
     @SerializedName("percent")
-    val percent: Int,
+    val percent: Int = 0,
     @SerializedName("transportation_score")
-    val transportationScore: Int
+    val transportationScore: Int = 0
 )

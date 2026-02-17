@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class Front(
     @SerializedName("display")
-    val display: Display,
+    val display: Display = Display(),
     @SerializedName("small")
-    val small: Small,
+    val small: Small = Small(),
     @SerializedName("thumb")
-    val thumb: Thumb
+    val thumb: Thumb = Thumb()
 )

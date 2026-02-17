@@ -5,39 +5,39 @@ import com.google.gson.annotations.SerializedName
 
 data class OwnerFields(
     @SerializedName("abbreviated_product_name_fr")
-    val abbreviatedProductNameFr: Int,
+    val abbreviatedProductNameFr: Int = 0,
     @SerializedName("brands")
-    val brands: Int,
+    val brands: Int = 0,
     @SerializedName("categories")
-    val categories: Int,
+    val categories: Int = 0,
     @SerializedName("conservation_conditions_fr")
-    val conservationConditionsFr: Int,
+    val conservationConditionsFr: Int = 0,
     @SerializedName("countries")
-    val countries: Int,
+    val countries: Int = 0,
     @SerializedName("customer_service_fr")
-    val customerServiceFr: Int,
+    val customerServiceFr: Int = 0,
     @SerializedName("data_sources")
-    val dataSources: Int,
+    val dataSources: Int = 0,
     @SerializedName("generic_name_fr")
-    val genericNameFr: Int,
+    val genericNameFr: Int = 0,
     @SerializedName("ingredients_text_fr")
-    val ingredientsTextFr: Int,
+    val ingredientsTextFr: Int = 0,
     @SerializedName("lang")
-    val lang: Int,
+    val lang: Int = 0,
     @SerializedName("lc")
-    val lc: Int,
+    val lc: Int = 0,
     @SerializedName("nutrition_data_per")
-    val nutritionDataPer: Int,
+    val nutritionDataPer: Int = 0,
     @SerializedName("nutrition_data_prepared_per")
-    val nutritionDataPreparedPer: Int,
+    val nutritionDataPreparedPer: Int = 0,
     @SerializedName("obsolete")
-    val obsolete: Int,
+    val obsolete: Int = 0,
     @SerializedName("origin_fr")
-    val originFr: Int,
+    val originFr: Int = 0,
     @SerializedName("owner")
-    val owner: Int,
+    val owner: Int = 0,
     @SerializedName("product_name_fr")
-    val productNameFr: Int,
+    val productNameFr: Int = 0,
     @SerializedName("quantity")
-    val quantity: Int
+    val quantity: Int = 0
 )

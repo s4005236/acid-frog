@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class EnPlastic(
     @SerializedName("weight")
-    val weight: Double,
+    val weight: Double = 0.0,
     @SerializedName("weight_100g")
-    val weight100g: Double,
+    val weight100g: Double = 0.0,
     @SerializedName("weight_percent")
-    val weightPercent: Int
+    val weightPercent: Int = 0
 )

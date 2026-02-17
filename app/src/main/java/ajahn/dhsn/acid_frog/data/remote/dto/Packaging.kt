@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class Packaging(
     @SerializedName("non_recyclable_and_non_biodegradable_materials")
-    val nonRecyclableAndNonBiodegradableMaterials: Int,
+    val nonRecyclableAndNonBiodegradableMaterials: Int = 0,
     @SerializedName("packagings")
-    val packagings: List<PackagingX>,
+    val packagings: List<PackagingX> = listOf(),
     @SerializedName("score")
-    val score: Int,
+    val score: Int = 0,
     @SerializedName("value")
-    val value: Int
+    val value: Int = 0
 )

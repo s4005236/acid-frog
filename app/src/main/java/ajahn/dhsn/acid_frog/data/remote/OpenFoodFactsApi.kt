@@ -6,6 +6,12 @@ import retrofit2.http.Path
 
 interface OpenFoodFactsApi {
 
-    @GET("product/{code}")
+    @GET("api/v2/product/{code}")
     suspend fun getProductByCode(@Path("code") code: String) : ProductDto
+
+//    @GET("cgi/suggest.pl?tagtype=allergens")
+//    suspend fun getAllergens(@Path("code") code: String) : String
+//
+//    @GET("cgi/suggest.pl?tagtype=ingredients")
+//    suspend fun getIngredients() : String
 }

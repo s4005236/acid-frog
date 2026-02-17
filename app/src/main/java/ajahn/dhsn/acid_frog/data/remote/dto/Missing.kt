@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class Missing(
     @SerializedName("labels")
-    val labels: Int
+    val labels: Int = 0
 )

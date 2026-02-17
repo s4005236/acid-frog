@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 
 data class ThumbXX(
     @SerializedName("en")
-    val en: String,
+    val en: String = "",
     @SerializedName("fr")
-    val fr: String,
+    val fr: String = "",
     @SerializedName("it")
-    val `it`: String,
+    val `it`: String = "",
     @SerializedName("nl")
-    val nl: String,
+    val nl: String = "",
     @SerializedName("ro")
-    val ro: String
+    val ro: String = ""
 )

@@ -5,21 +5,21 @@ import com.google.gson.annotations.SerializedName
 
 data class X2023(
     @SerializedName("category_available")
-    val categoryAvailable: Int,
+    val categoryAvailable: Int = 0,
     @SerializedName("data")
-    val `data`: DataX,
+    val `data`: DataX = DataX(),
     @SerializedName("estimated")
-    val estimated: Int,
+    val estimated: Int = 0,
     @SerializedName("grade")
-    val grade: String,
+    val grade: String = "",
     @SerializedName("nutrients_available")
-    val nutrientsAvailable: Int,
+    val nutrientsAvailable: Int = 0,
     @SerializedName("nutriscore_applicable")
-    val nutriscoreApplicable: Int,
+    val nutriscoreApplicable: Int = 0,
     @SerializedName("nutriscore_computed")
-    val nutriscoreComputed: Int,
+    val nutriscoreComputed: Int = 0,
     @SerializedName("preparation")
-    val preparation: String,
+    val preparation: String = "",
     @SerializedName("score")
-    val score: Int
+    val score: Int = 0
 )

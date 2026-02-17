@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class NutritionRo(
     @SerializedName("imgid")
-    val imgid: String,
+    val imgid: String = "",
     @SerializedName("rev")
-    val rev: String,
+    val rev: String = "",
     @SerializedName("sizes")
-    val sizes: Sizes
+    val sizes: Sizes = Sizes()
 )

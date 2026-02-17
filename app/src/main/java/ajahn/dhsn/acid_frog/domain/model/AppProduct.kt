@@ -6,5 +6,5 @@ data class AppProduct(
     val status: Int,
     val status_verbose: String,
     val name: String,
-    val allergens : List<AppIngredient>
+    val ingredients : List<String>
 )

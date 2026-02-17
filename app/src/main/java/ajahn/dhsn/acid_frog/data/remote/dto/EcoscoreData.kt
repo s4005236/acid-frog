@@ -5,15 +5,15 @@ import com.google.gson.annotations.SerializedName
 
 data class EcoscoreData(
     @SerializedName("adjustments")
-    val adjustments: Adjustments,
+    val adjustments: Adjustments = Adjustments(),
     @SerializedName("environmental_score_not_applicable_for_category")
-    val environmentalScoreNotApplicableForCategory: String,
+    val environmentalScoreNotApplicableForCategory: String = "",
     @SerializedName("grade")
-    val grade: String,
+    val grade: String = "",
     @SerializedName("missing")
-    val missing: Missing,
+    val missing: Missing = Missing(),
     @SerializedName("scores")
-    val scores: Scores,
+    val scores: Scores = Scores(),
     @SerializedName("status")
-    val status: String
+    val status: String = ""
 )

@@ -5,21 +5,21 @@ import com.google.gson.annotations.SerializedName
 
 data class PackagingXX(
     @SerializedName("food_contact")
-    val foodContact: Int,
+    val foodContact: Int = 0,
     @SerializedName("material")
-    val material: String,
+    val material: String = "",
     @SerializedName("number_of_units")
-    val numberOfUnits: Int,
+    val numberOfUnits: Int = 0,
     @SerializedName("quantity_per_unit")
-    val quantityPerUnit: String,
+    val quantityPerUnit: String = "",
     @SerializedName("quantity_per_unit_unit")
-    val quantityPerUnitUnit: String,
+    val quantityPerUnitUnit: String = "",
     @SerializedName("quantity_per_unit_value")
-    val quantityPerUnitValue: Double,
+    val quantityPerUnitValue: Double = 0.0,
     @SerializedName("recycling")
-    val recycling: String,
+    val recycling: String = "",
     @SerializedName("shape")
-    val shape: String,
+    val shape: String = "",
     @SerializedName("weight_measured")
-    val weightMeasured: Double
+    val weightMeasured: Double = 0.0
 )

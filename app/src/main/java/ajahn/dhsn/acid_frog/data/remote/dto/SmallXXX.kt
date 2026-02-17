@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class SmallXXX(
     @SerializedName("en")
-    val en: String,
+    val en: String = "",
     @SerializedName("fr")
-    val fr: String,
+    val fr: String = "",
     @SerializedName("nl")
-    val nl: String
+    val nl: String = ""
 )

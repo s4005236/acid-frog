@@ -5,27 +5,27 @@ import com.google.gson.annotations.SerializedName
 
 data class PackagingX(
     @SerializedName("environmental_score_material_score")
-    val environmentalScoreMaterialScore: Int,
+    val environmentalScoreMaterialScore: Int = 0,
     @SerializedName("environmental_score_shape_ratio")
-    val environmentalScoreShapeRatio: Double,
+    val environmentalScoreShapeRatio: Double = 0.0,
     @SerializedName("material")
-    val material: String,
+    val material: String = "",
     @SerializedName("material_shape")
-    val materialShape: String,
+    val materialShape: String = "",
     @SerializedName("non_recyclable_and_non_biodegradable")
-    val nonRecyclableAndNonBiodegradable: String,
+    val nonRecyclableAndNonBiodegradable: String = "",
     @SerializedName("number_of_units")
-    val numberOfUnits: Int,
+    val numberOfUnits: Int = 0,
     @SerializedName("quantity_per_unit")
-    val quantityPerUnit: String,
+    val quantityPerUnit: String = "",
     @SerializedName("quantity_per_unit_unit")
-    val quantityPerUnitUnit: String,
+    val quantityPerUnitUnit: String = "",
     @SerializedName("quantity_per_unit_value")
-    val quantityPerUnitValue: Double,
+    val quantityPerUnitValue: Double = 0.0,
     @SerializedName("recycling")
-    val recycling: String,
+    val recycling: String = "",
     @SerializedName("shape")
-    val shape: String,
+    val shape: String = "",
     @SerializedName("weight_measured")
-    val weightMeasured: Double
+    val weightMeasured: Double = 0.0
 )

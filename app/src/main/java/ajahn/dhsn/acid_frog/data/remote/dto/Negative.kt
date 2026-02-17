@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 
 data class Negative(
     @SerializedName("id")
-    val id: String,
+    val id: String = "",
     @SerializedName("points")
-    val points: Int,
+    val points: Int = 0,
     @SerializedName("points_max")
-    val pointsMax: Int,
+    val pointsMax: Int = 0,
     @SerializedName("unit")
-    val unit: String,
+    val unit: String = "",
     @SerializedName("value")
-    val value: Int
+    val value: Int = 0
 )

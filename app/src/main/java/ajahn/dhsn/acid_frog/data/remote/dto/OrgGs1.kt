@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName
 
 data class OrgGs1(
     @SerializedName("gln")
-    val gln: String,
+    val gln: String = "",
     @SerializedName("gpcCategoryCode")
-    val gpcCategoryCode: String,
+    val gpcCategoryCode: String = "",
     @SerializedName("gpcCategoryName")
-    val gpcCategoryName: String,
+    val gpcCategoryName: String = "",
     @SerializedName("isAllergenRelevantDataProvided")
-    val isAllergenRelevantDataProvided: String,
+    val isAllergenRelevantDataProvided: String = "",
     @SerializedName("lastChangeDateTime")
-    val lastChangeDateTime: String,
+    val lastChangeDateTime: String = "",
     @SerializedName("partyName")
-    val partyName: String,
+    val partyName: String = "",
     @SerializedName("publicationDateTime")
-    val publicationDateTime: String
+    val publicationDateTime: String = ""
 )
