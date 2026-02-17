@@ -13,14 +13,7 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun getProductByCode(code: String): ResponseWrapper<ProductDto> {
         return try {
-            //TODO put real api method
-            val product = ProductDto(
-                code = "1234567890",
-                product = Product(
-                    productNameDe = "Milch"
-                )
-            )
-
+            val product = api.getProductByCode(code)
             ResponseWrapper.Success(product)
         } catch(e: Exception){
             ResponseWrapper.Error(e.message.toString() )
@@ -29,9 +22,7 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun getAllAllergens(): ResponseWrapper<List<String>> {
         return try {
-            //TODO put real api method
-            val allergens = listOf("pepper", "paprika", "basil")
-
+            val allergens = api.getAllergens()
             ResponseWrapper.Success(allergens)
         } catch(e: Exception){
             ResponseWrapper.Error(e.message.toString() )

@@ -24,25 +24,17 @@ fun BarcodeScanResultScreen(
     viewModel: BarcodeScanResultViewModel = hiltViewModel(),
     barcode: String
 ) {
-    viewModel.getProduct(barcode)
+    viewModel.getAppScanResult(barcode)
     val state = viewModel.state.value
 
     val context = LocalContext.current
-//     val productName by remember { mutableStateOf(viewModel.state.value.appProduct?.name) }
-////    val product by remember { mutableStateOf(viewModel.state.value.appProduct) }
-
-    if (state.appProduct != null){
-        println("Name des Produkts: ${state.appProduct.code}")
-    } else{
-        println("Loading")
-    }
 
     Box(
         modifier = Modifier.safeDrawingPadding()
     ) {
         Column {
-            Text("Gescannter Barcode: ${barcode}")
-            Text("Gefundenes Produkt: ${state.appProduct?.name ?: ">kein Produkt gefunden<"}")
+            Text("Hier erscheinen alle bereitzustellenden informationen")
+            Text("Placeholder: ${state.scanResult?.id}")
         }
 
 

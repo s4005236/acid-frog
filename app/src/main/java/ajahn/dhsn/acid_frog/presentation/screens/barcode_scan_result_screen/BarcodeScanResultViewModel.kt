@@ -1,6 +1,5 @@
 package ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_result_screen
 
-import ajahn.dhsn.acid_frog.data.remote.dto.toAppProduct
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.domain.repository.ProductRepository
 import androidx.compose.runtime.State
@@ -24,19 +23,34 @@ class BarcodeScanResultViewModel @Inject constructor(
     init {
     }
 
-    fun getProduct(productBarcode: String) {
+    fun getAppScanResult(productBarcode: String) {
         //TODO this should be restructured into "getScanResult"
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                //state loading
-                //val appProduct = productRepository.getProductByCode(productBarcode).toAppProduct()
-                //val appProfiles : List<AppProfile> = emptyList()
-                //val appProfile =
+                _state.value = state.value.copy(
+                    isLoading = true
+                )
 
-                //fun
+                //TODO begin processing data
+                //get from repositories
+                val appProduct = productRepository.getProductByCode(productBarcode).data?.product
+                val appProfiles : List<AppProfile> = listOf(
+                    AppProfile(
+                        profileName = "test",
+                        id ="12346",
+                        allergens = emptyList(),
+                        isActive = true
+                    )
+                )
 
-                //state data , state loading = false
+                println(appProduct)
+
+                //process
+
+
+
+                //set state data , state loading = false
             }
         }
     }
