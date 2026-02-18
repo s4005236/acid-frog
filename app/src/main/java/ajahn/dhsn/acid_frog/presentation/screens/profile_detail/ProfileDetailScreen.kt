@@ -3,7 +3,6 @@ package ajahn.dhsn.acid_frog.presentation.screens.profile_detail
 import ajahn.dhsn.acid_frog.ProfileListScreen
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.presentation.screens.home.components.TopBarHome
-import ajahn.dhsn.acid_frog.presentation.screens.profile_list.ProfileListScreen
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -53,27 +52,20 @@ fun ProfileDetailScreen(
     viewModel: ProfileDetailViewModel = hiltViewModel(),
     profileId: Long
 ) {
-    viewModel.getProfile(profileId)
+    if (viewModel.state.value.appProfile == null){
+        viewModel.getProfile(profileId)
+    }
+
+    val state = viewModel.state.value
 
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val selectOptions = listOf("Alle aktivieren", "Alle deaktivieren")
 
-    var profileId by remember { mutableStateOf(viewModel.state.value.appProfile?.id ?: 0L) }
-    var profileName by remember {
-        mutableStateOf(
-            viewModel.state.value.appProfile?.name ?: ""
-        )
-    }
-    var profileAllergenList by remember {
-        mutableStateOf(
-            viewModel.state.value.appProfile?.allergens ?: emptyList()
-        )
-    }
-    var profileIsActive by remember {
-        mutableStateOf(
-            viewModel.state.value.appProfile?.isActive ?: false
-        )
+    var appProfile by remember {mutableStateOf(AppProfile())}
+
+    if (profileId > 0 && appProfile.id < 1 && state.appProfile != null){
+        appProfile = state.appProfile
     }
 
     Scaffold(topBar = {
@@ -82,14 +74,8 @@ fun ProfileDetailScreen(
         ExtendedFloatingActionButton(
             onClick = {
                 viewModel.saveProfile(
-                    AppProfile(
-                        id = profileId,
-                        name = profileName,
-                        allergens = profileAllergenList,
-                        isActive = profileIsActive,
-                    )
+                    appProfile
                 )
-                println(profileName)
                 navController.navigate(ProfileListScreen)
             },
             icon = { Icon(Icons.Default.Add, "Save Profile") },
@@ -111,17 +97,17 @@ fun ProfileDetailScreen(
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     Button(
-                        onClick = { profileIsActive = !profileIsActive },
-                        colors = if (profileIsActive) ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                        onClick = { appProfile.isActive = !appProfile.isActive },
+                        colors = if (appProfile.isActive) ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                         else ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-                    ) { Text(if (profileIsActive) "Profil aktiv" else "Profil inaktiv") }
+                    ) { Text(if (appProfile.isActive) "Profil aktiv" else "Profil inaktiv") }
 
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = profileName,
+                        value = appProfile.name,
                         label = { Text("Profilname") },
                         placeholder = { Text("Name eintragen") },
-                        onValueChange = { profileName = it },
+                        onValueChange = { appProfile.name = it },
                         singleLine = true,
                         shape = RoundedCornerShape(16.dp),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -166,14 +152,16 @@ fun ProfileDetailScreen(
                             items(viewModel.state.value.allergens) { allergen ->
                                 Button(
                                     onClick = {
-                                        if (profileAllergenList.contains(allergen)) {
-                                            profileAllergenList -= allergen
+
+                                        if (appProfile.allergens.contains(allergen)) {
+                                            appProfile.allergens = appProfile.allergens + allergen
                                         } else {
-                                            profileAllergenList += allergen
+                                            //TODO turn to mutuable
+                                            //appProfile.allergens.removeAll(allergen)
                                         }
                                     },
                                     modifier = Modifier.padding(2.dp),
-                                    colors = if (profileAllergenList.contains(allergen))
+                                    colors = if (appProfile.allergens.contains(allergen))
                                         ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                                     else
                                         ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary)
@@ -198,8 +186,9 @@ fun ProfileDetailScreen(
             }
 
             if (viewModel.state.value.isLoading) {
-                CircularProgressIndicator(modifier = Modifier
-                    .align(Alignment.Center)
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center)
                 )
             }
         }

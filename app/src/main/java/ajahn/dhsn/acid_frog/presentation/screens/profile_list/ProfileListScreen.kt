@@ -3,7 +3,6 @@ package ajahn.dhsn.acid_frog.presentation.screens.profile_list
 import ajahn.dhsn.acid_frog.ProfileDetailScreen
 import ajahn.dhsn.acid_frog.presentation.screens.home.components.TopBarHome
 import ajahn.dhsn.acid_frog.presentation.screens.profile_list.components.ProfileListItem
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +18,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -34,6 +35,8 @@ fun ProfileListScreen(
     viewModel: ProfileListViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+
+    val state by viewModel.state.collectAsState()
 
     Scaffold(
         topBar = {
@@ -60,7 +63,7 @@ fun ProfileListScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                items(viewModel.state.value.appProfiles) { profile ->
+                items(state.appProfiles) { profile ->
                     ProfileListItem(appProfile = profile, onItemClick = {
                         navController.navigate(ProfileDetailScreen(
                             profileId = profile.id
@@ -68,7 +71,7 @@ fun ProfileListScreen(
                     })
                 }
             }
-            if (viewModel.state.value.appProfiles.isEmpty()){
+            if (state.appProfiles.isEmpty() && !state.error.isNotBlank()){
                 Text(
                     text = "Keine Profile vorhanden",
                     color = MaterialTheme.colorScheme.error,
@@ -80,9 +83,9 @@ fun ProfileListScreen(
                 )
             }
 
-            if (viewModel.state.value.error.isNotBlank()) {
+            if (state.error.isNotBlank()) {
                 Text(
-                    text = viewModel.state.value.error,
+                    text = state.error,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -92,7 +95,7 @@ fun ProfileListScreen(
                 )
             }
 
-            if (viewModel.state.value.isLoading) {
+            if (state.isLoading) {
                 CircularProgressIndicator(modifier = Modifier
                     .align(Alignment.Center)
                 )

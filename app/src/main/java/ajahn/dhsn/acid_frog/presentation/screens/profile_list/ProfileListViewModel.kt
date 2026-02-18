@@ -11,6 +11,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -21,38 +25,41 @@ class ProfileListViewModel @Inject constructor(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(ProfileListState())
-    val state: State<ProfileListState> = _state
+    private val _state = MutableStateFlow(ProfileListState())
+    val state: StateFlow<ProfileListState> = _state.asStateFlow()
 
     init {
         getProfiles()
     }
 
     private fun getProfiles() {
-
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _state.value = state.value.copy(
-                        isLoading = true
-                    )
+                _state.update { currentState ->
+                    currentState.copy(isLoading = true)
+                }
 
-                    val response = profileRepository.getAll()
+                val response = profileRepository.getAll()
 
-                    when (response) {
-                        is ResponseWrapper.Success -> {
-                            _state.value = state.value.copy(
+                when (response) {
+                    is ResponseWrapper.Success -> {
+                        _state.update { currentState ->
+                            currentState.copy(
                                 isLoading = false,
                                 appProfiles = response.data ?: emptyList()
                             )
                         }
+                    }
 
-                        is ResponseWrapper.Error -> {
-                            _state.value = state.value.copy(
+                    is ResponseWrapper.Error -> {
+                        _state.update { currentState ->
+                            currentState.copy(
                                 isLoading = false,
                                 error = response.errorMessage ?: "An unexpected error occurred"
                             )
                         }
                     }
+                }
             }
         }
     }

@@ -26,7 +26,6 @@ class ProfileRepositoryImpl(
             if (id == 0L){
                 //create new profile
                 ResponseWrapper.Success(AppProfile(
-                    id = 0L,
                     name = "",
                     allergens = emptyList(),
                     isActive = false

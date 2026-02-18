@@ -5,12 +5,18 @@ import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
 import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import ajahn.dhsn.acid_frog.domain.repository.room.ProfileRepository
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -33,9 +39,7 @@ class ProfileDetailViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    _state.value = state.value.copy(
-                        isLoading = true
-                    )
+                    _state.value = state.value.copy(isLoading = true)
 
                     val response = productRepository.getAllAllergens()
 
@@ -49,13 +53,11 @@ class ProfileDetailViewModel @Inject constructor(
 
                         is ResponseWrapper.Error -> {
                             _state.value = state.value.copy(
-                                isLoading = false,
-                                error = response.errorMessage ?: "An unexpected error occurred"
-                            )
+                                    isLoading = false,
+                                    error = response.errorMessage ?: "An unexpected error occurred"
+                                )
                         }
                     }
-
-
                 } catch (e: HttpException) {
                     _state.value = state.value.copy(
                         isLoading = false,
@@ -104,14 +106,18 @@ class ProfileDetailViewModel @Inject constructor(
         }
     }
 
-    fun saveProfile(appProfile: AppProfile) {
+    fun saveProfile(appProfile: AppProfile?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _state.value = state.value.copy(
                     isLoading = true
                 )
 
-                if (appProfile.id == 0L){
+                if (appProfile == null) {
+                    return@withContext
+                }
+
+                if (appProfile.id == 0L) {
                     val response = profileRepository.insertProfile(appProfile)
                     //TODO what to do with the response
                 } else {
