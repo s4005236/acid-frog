@@ -15,7 +15,6 @@ data class ProductDto(
     @SerializedName("status_verbose")
     val statusVerbose: String = ""
 )
-
 fun ProductDto.toAppProduct(): AppProduct {
     return OpenFoodFactsApiObjectConverter.productDto2AppProduct(this)
 }

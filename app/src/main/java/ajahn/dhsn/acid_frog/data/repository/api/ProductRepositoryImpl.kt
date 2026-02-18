@@ -5,6 +5,7 @@ import ajahn.dhsn.acid_frog.data.remote.dto.ProductDto
 import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
 import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import jakarta.inject.Inject
+import java.io.IOException
 
 class ProductRepositoryImpl @Inject constructor(
     private val api: OpenFoodFactsApi

@@ -1,8 +1,9 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_detail
 
+import ajahn.dhsn.acid_frog.ProfileListScreen
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.presentation.screens.home.components.TopBarHome
-import android.widget.Toast
+import ajahn.dhsn.acid_frog.presentation.screens.profile_list.ProfileListScreen
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,7 +49,7 @@ import androidx.navigation.NavHostController
 fun ProfileDetailScreen(
     navController: NavHostController,
     viewModel: ProfileDetailViewModel = hiltViewModel(),
-    profileId: String
+    profileId: Long
 ) {
     viewModel.getProfile(profileId)
 
@@ -56,10 +57,10 @@ fun ProfileDetailScreen(
     val focusManager = LocalFocusManager.current
     val selectOptions = listOf("Alle aktivieren", "Alle deaktivieren")
 
-    var profileId by remember { mutableStateOf(viewModel.state.value.appProfile?.id ?: "-1") }
+    var profileId by remember { mutableStateOf(viewModel.state.value.appProfile?.id ?: 0L) }
     var profileName by remember {
         mutableStateOf(
-            viewModel.state.value.appProfile?.profileName ?: ""
+            viewModel.state.value.appProfile?.name ?: ""
         )
     }
     var profileAllergenList by remember {
@@ -81,11 +82,12 @@ fun ProfileDetailScreen(
                 viewModel.saveProfile(
                     AppProfile(
                         id = profileId,
-                        profileName = profileName,
+                        name = profileName,
                         allergens = profileAllergenList,
                         isActive = profileIsActive,
                     )
                 )
+                navController.navigate(ProfileListScreen)
             },
             icon = { Icon(Icons.Default.Add, "Save Profile") },
             text = { Text(text = "Profil speichern") },

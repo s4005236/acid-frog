@@ -61,7 +61,7 @@ object HomeScreen
 object ProfileListScreen
 @Serializable
 data class ProfileDetailScreen(
-    val profileId: String
+    val profileId: Long
 )
 @Serializable
 object BarcodeScanScreen

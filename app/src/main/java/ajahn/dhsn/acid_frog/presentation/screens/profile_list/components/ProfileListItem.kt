@@ -41,7 +41,7 @@ fun ProfileListItem(
 
         Text(
             style = Typography.titleMedium,
-            text = appProfile.profileName
+            text = appProfile.name
         )
     }
 }

@@ -1,7 +1,13 @@
 package ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_result_screen
 
+import ajahn.dhsn.acid_frog.data.database.entity.ProfileEntity
+import ajahn.dhsn.acid_frog.data.database.entity.toAppProfile
+import ajahn.dhsn.acid_frog.data.remote.dto.ProductDto
+import ajahn.dhsn.acid_frog.data.remote.dto.toAppProduct
+import ajahn.dhsn.acid_frog.domain.model.AppProduct
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
+import ajahn.dhsn.acid_frog.domain.repository.room.ProfileRepository
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -14,7 +20,8 @@ import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class BarcodeScanResultViewModel @Inject constructor(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
     private val _state = mutableStateOf(BarcodeScanResultState())
@@ -24,7 +31,6 @@ class BarcodeScanResultViewModel @Inject constructor(
     }
 
     fun getAppScanResult(productBarcode: String) {
-        //TODO this should be restructured into "getScanResult"
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -34,20 +40,15 @@ class BarcodeScanResultViewModel @Inject constructor(
 
                 //TODO begin processing data
                 //get from repositories
-                val appProduct = productRepository.getProductByCode(productBarcode).data?.product
-                //TODO call profileRepository
-                val appProfiles : List<AppProfile> = listOf(
-                    AppProfile(
-                        profileName = "test",
-                        id ="12346",
-                        allergens = emptyList(),
-                        isActive = true
-                    )
-                )
+                val appProduct: AppProduct? = productRepository.getProductByCode(productBarcode).data?.toAppProduct()
+                val appProfile : AppProfile? = profileRepository.getProfileById(1).data?.toAppProfile()
 
-                println(appProduct)
+                println("Received a appProduct from repo: ${appProduct}")
+                println("Received a appProfile from repo: ${appProfile}")
 
-                //process
+                println("set break point here")
+
+                //process received data
 
 
 

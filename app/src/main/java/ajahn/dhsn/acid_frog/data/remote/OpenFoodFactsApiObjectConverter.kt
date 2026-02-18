@@ -7,7 +7,6 @@ import java.util.UUID
 object OpenFoodFactsApiObjectConverter {
     fun productDto2AppProduct(productDto: ProductDto): AppProduct {
         return AppProduct(
-            id = UUID.randomUUID().toString(),
             code = productDto.code,
             status = productDto.status,
             status_verbose = productDto.statusVerbose,
