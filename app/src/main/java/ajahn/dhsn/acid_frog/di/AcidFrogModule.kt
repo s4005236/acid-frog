@@ -2,8 +2,8 @@ package ajahn.dhsn.acid_frog.di
 
 import ajahn.dhsn.acid_frog.common.Constants
 import ajahn.dhsn.acid_frog.data.remote.OpenFoodFactsApi
-import ajahn.dhsn.acid_frog.data.repository.ProductRepositoryImpl
-import ajahn.dhsn.acid_frog.domain.repository.ProductRepository
+import ajahn.dhsn.acid_frog.data.repository.api.ProductRepositoryImpl
+import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

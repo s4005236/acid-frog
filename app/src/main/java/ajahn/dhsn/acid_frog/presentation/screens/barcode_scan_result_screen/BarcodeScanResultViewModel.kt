@@ -1,7 +1,7 @@
 package ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_result_screen
 
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
-import ajahn.dhsn.acid_frog.domain.repository.ProductRepository
+import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -35,6 +35,7 @@ class BarcodeScanResultViewModel @Inject constructor(
                 //TODO begin processing data
                 //get from repositories
                 val appProduct = productRepository.getProductByCode(productBarcode).data?.product
+                //TODO call profileRepository
                 val appProfiles : List<AppProfile> = listOf(
                     AppProfile(
                         profileName = "test",

@@ -1,10 +1,9 @@
-package ajahn.dhsn.acid_frog.data.repository
+package ajahn.dhsn.acid_frog.data.repository.api
 
 import ajahn.dhsn.acid_frog.data.remote.OpenFoodFactsApi
-import ajahn.dhsn.acid_frog.data.remote.dto.Product
 import ajahn.dhsn.acid_frog.data.remote.dto.ProductDto
 import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
-import ajahn.dhsn.acid_frog.domain.repository.ProductRepository
+import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import jakarta.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(

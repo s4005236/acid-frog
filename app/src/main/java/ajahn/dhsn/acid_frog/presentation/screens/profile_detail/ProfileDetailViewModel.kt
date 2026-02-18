@@ -2,7 +2,7 @@ package ajahn.dhsn.acid_frog.presentation.screens.profile_detail
 
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
-import ajahn.dhsn.acid_frog.domain.repository.ProductRepository
+import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -90,7 +90,7 @@ class ProfileDetailViewModel @Inject constructor(
     }
 
     fun saveProfile(profile: AppProfile) {
-        //TODO implement update and create
+        //TODO implement and call profileRepository
         println("Trying to save ${profile.profileName}")
         println("This includes the allergens ${profile.allergens}")
     }

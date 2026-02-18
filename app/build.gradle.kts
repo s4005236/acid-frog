@@ -77,7 +77,12 @@ dependencies {
     implementation(libs.gson)
 
     // Room
-    implementation(libs.androidx.room.common.jvm)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.tools.core)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.common)
+    ksp(libs.androidx.room.compiler)
+    testImplementation(libs.androidx.room.testing)
 
     //Google Barcode Scanner
     implementation(libs.play.services.code.scanner)
