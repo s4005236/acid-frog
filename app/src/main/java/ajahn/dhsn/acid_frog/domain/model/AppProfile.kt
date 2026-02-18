@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 
 data class AppProfile (
     val id: Long = 0L,
-    val name: String? = null,
+    val name: String = "",
     val allergens: List<String> = emptyList(),
     val isActive : Boolean = false
 )

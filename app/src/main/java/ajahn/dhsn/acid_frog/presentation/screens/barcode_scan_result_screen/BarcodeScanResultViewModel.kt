@@ -40,8 +40,8 @@ class BarcodeScanResultViewModel @Inject constructor(
 
                 //TODO begin processing data
                 //get from repositories
-                val appProduct: AppProduct? = productRepository.getProductByCode(productBarcode).data?.toAppProduct()
-                val appProfile : AppProfile? = profileRepository.getProfileById(1).data?.toAppProfile()
+                val appProduct: AppProduct? = productRepository.getProductByCode(productBarcode).data
+                val appProfile : AppProfile? = profileRepository.getProfileById(1).data
 
                 println("Received a appProduct from repo: ${appProduct}")
                 println("Received a appProfile from repo: ${appProfile}")

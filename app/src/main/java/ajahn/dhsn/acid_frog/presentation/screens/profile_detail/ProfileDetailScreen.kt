@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -87,6 +89,7 @@ fun ProfileDetailScreen(
                         isActive = profileIsActive,
                     )
                 )
+                println(profileName)
                 navController.navigate(ProfileListScreen)
             },
             icon = { Icon(Icons.Default.Add, "Save Profile") },
@@ -161,7 +164,6 @@ fun ProfileDetailScreen(
                                 .fillMaxSize()
                         ) {
                             items(viewModel.state.value.allergens) { allergen ->
-                                //FIXME input all nutrients, activate if in profile
                                 Button(
                                     onClick = {
                                         if (profileAllergenList.contains(allergen)) {
@@ -182,6 +184,23 @@ fun ProfileDetailScreen(
                         }
                     }
                 }
+            }
+            if (viewModel.state.value.error.isNotBlank()) {
+                Text(
+                    text = viewModel.state.value.error,
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .align(Alignment.Center)
+                )
+            }
+
+            if (viewModel.state.value.isLoading) {
+                CircularProgressIndicator(modifier = Modifier
+                    .align(Alignment.Center)
+                )
             }
         }
     }

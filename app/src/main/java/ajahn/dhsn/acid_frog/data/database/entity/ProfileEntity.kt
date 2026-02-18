@@ -17,7 +17,7 @@ data class ProfileEntity(
         ): ProfileEntity {
             return ProfileEntity(
                 id = appProfile.id,
-                name = appProfile.name ?: "",
+                name = appProfile.name,
                 allergens = appProfile.allergens,
                 isActive = appProfile.isActive,
             )

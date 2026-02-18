@@ -1,7 +1,5 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_detail
 
-import ajahn.dhsn.acid_frog.data.database.entity.ProfileEntity
-import ajahn.dhsn.acid_frog.data.database.entity.toAppProfile
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
 import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
@@ -87,7 +85,7 @@ class ProfileDetailViewModel @Inject constructor(
                     is ResponseWrapper.Success -> {
                         _state.value = state.value.copy(
                             isLoading = false,
-                            appProfile = response.data?.toAppProfile()
+                            appProfile = response.data
                         )
 
                         println("ID: ${response.data?.id}")
@@ -106,27 +104,22 @@ class ProfileDetailViewModel @Inject constructor(
         }
     }
 
-    fun saveProfile(profile: AppProfile) {
+    fun saveProfile(appProfile: AppProfile) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _state.value = state.value.copy(
                     isLoading = true
                 )
 
-                val profileEntity : ProfileEntity = ProfileEntity.fromAppProfile(profile)
-
-                if (profile.id.value == 0L){
-                    val response = profileRepository.insertProfile(profileEntity).data
+                if (appProfile.id == 0L){
+                    val response = profileRepository.insertProfile(appProfile)
                     //TODO what to do with the response
                 } else {
-                    val response = profileRepository.updateProfile(profileEntity)
+                    val response = profileRepository.updateProfile(appProfile)
                     //TODO what to do with the response
                 }
             }
         }
 
-        println("ID: ${profile.id}")
-        println("Trying to save ${profile.name}")
-        println("This includes the allergens ${profile.allergens}")
     }
 }

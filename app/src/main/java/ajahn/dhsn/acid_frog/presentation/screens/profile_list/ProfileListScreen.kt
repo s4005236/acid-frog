@@ -62,7 +62,6 @@ fun ProfileListScreen(
             ) {
                 items(viewModel.state.value.appProfiles) { profile ->
                     ProfileListItem(appProfile = profile, onItemClick = {
-
                         navController.navigate(ProfileDetailScreen(
                             profileId = profile.id
                         ))

@@ -42,9 +42,7 @@ class ProfileListViewModel @Inject constructor(
                         is ResponseWrapper.Success -> {
                             _state.value = state.value.copy(
                                 isLoading = false,
-                                appProfiles = response.data?.map {
-                                    it.toAppProfile()
-                                } ?: emptyList()
+                                appProfiles = response.data ?: emptyList()
                             )
                         }
 
