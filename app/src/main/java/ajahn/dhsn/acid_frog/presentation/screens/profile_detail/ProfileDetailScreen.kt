@@ -19,6 +19,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -33,6 +34,7 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -78,7 +80,7 @@ fun ProfileDetailScreen(
                 )
                 navController.navigate(ProfileListScreen)
             },
-            icon = { Icon(Icons.Default.Add, "Save Profile") },
+            icon = { Icon(Icons.Default.Done, "Save Profile") },
             text = { Text(text = "Profil speichern") },
         )
     }) { innerPadding ->
@@ -152,11 +154,18 @@ fun ProfileDetailScreen(
                             items(viewModel.state.value.allergens) { allergen ->
                                 Button(
                                     onClick = {
-
                                         if (appProfile.allergens.contains(allergen)) {
-                                            appProfile.allergens.add(allergen)
+                                            //REMOVE element if already contained
+                                            val newList = appProfile.allergens - allergen
+                                            appProfile = appProfile.copy(
+                                                allergens = (appProfile.allergens - allergen).toMutableList()
+                                            )
                                         } else {
-                                            appProfile.allergens.remove(allergen)
+                                            //ADD element if not already contained
+                                            val newList : List<String> = appProfile.allergens + allergen
+                                            appProfile = appProfile.copy(
+                                                allergens = (appProfile.allergens + allergen).toMutableList()
+                                            )
                                         }
                                     },
                                     modifier = Modifier.padding(2.dp),
