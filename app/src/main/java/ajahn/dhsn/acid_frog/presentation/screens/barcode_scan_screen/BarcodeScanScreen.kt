@@ -1,8 +1,6 @@
 package ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_screen
 
 import ajahn.dhsn.acid_frog.BarcodeScanResultScreen
-import ajahn.dhsn.acid_frog.BarcodeScanScreen
-import ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_result_screen.BarcodeScanResultScreen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.runtime.Composable
@@ -12,7 +10,6 @@ import androidx.navigation.NavController
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
-import java.util.Locale
 
 @Composable
 fun BarcodeScanScreen(

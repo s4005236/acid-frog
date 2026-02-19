@@ -1,17 +1,21 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_list
 
-import ajahn.dhsn.acid_frog.domain.Ingredient
-import ajahn.dhsn.acid_frog.domain.Profile
+import ajahn.dhsn.acid_frog.domain.model.AppProfile
+import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
+import ajahn.dhsn.acid_frog.domain.repository.room.ProfileRepository
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class ProfileListViewModel @Inject constructor(
-    //TODO inject needed UseCases
-    //private val getProfilesUseCase: GetProfilesUseCase
+    private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
     private val _state = mutableStateOf(ProfileListState())
@@ -22,18 +26,91 @@ class ProfileListViewModel @Inject constructor(
     }
 
     private fun getProfiles() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _state.value = state.value.copy(isLoading = true)
 
-        //FIXME: this is a dummy list, change logic once domain layer is implemented
+                val response = profileRepository.getAll()
 
-        val dummyProfileList: List<Profile> = listOf(
-            Profile("1", "Alice", listOf(
-                Ingredient(id = "1", ingredientName = "garlic", isActive = true),
-                Ingredient(id = "5", ingredientName = "salt", isActive = true)
-            ), true),
-            Profile("2", "Bob", emptyList(),false),
-            Profile("3", "Cameron", emptyList(),true)
-        )
+                when (response) {
+                    is ResponseWrapper.Success -> {
+                        _state.value = state.value.copy(
+                            isLoading = false,
+                            appProfiles = response.data ?: emptyList()
+                        )
+                    }
 
-        _state.value = ProfileListState(profiles = dummyProfileList)
+                    is ResponseWrapper.Error -> {
+                        _state.value = state.value.copy(
+                            isLoading = false,
+                            error = response.errorMessage ?: "An unexpected error occurred"
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    //TODO twin of saveProfile in DetailViewModel, maybe put into Use Case?
+    fun saveProfile(appProfile: AppProfile?) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _state.value = state.value.copy(
+                    isLoading = true
+                )
+
+                if (appProfile == null) {
+                    return@withContext
+                }
+
+                if (appProfile.id.value == 0L) {
+                    val response = profileRepository.insertProfile(appProfile)
+                    _state.value = state.value.copy(
+                        isLoading = false
+                    )
+                } else {
+                    val response = profileRepository.updateProfile(appProfile)
+                    _state.value = state.value.copy(
+                        isLoading = false
+                    )
+                }
+            }
+        }
+    }
+
+    fun deleteProfile(appProfile: AppProfile?) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _state.value = state.value.copy(
+                    isLoading = true
+                )
+
+                if (appProfile == null) {
+                    return@withContext
+                }
+
+                profileRepository.deleteProfile(appProfile)
+
+                _state.value = state.value.copy(
+                    isLoading = false
+                )
+            }
+        }
+    }
+
+    fun deleteAllProfiles() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _state.value = state.value.copy(
+                    isLoading = true
+                )
+
+                profileRepository.deleteAll()
+
+                _state.value = state.value.copy(
+                    isLoading = false
+                )
+            }
+        }
     }
 }

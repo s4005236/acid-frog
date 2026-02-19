@@ -1,7 +1,10 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_detail
 
+import ajahn.dhsn.acid_frog.ProfileListScreen
+import ajahn.dhsn.acid_frog.domain.model.AppProfile
+import ajahn.dhsn.acid_frog.presentation.components.ConfirmationDialog
 import ajahn.dhsn.acid_frog.presentation.screens.home.components.TopBarHome
-import ajahn.dhsn.acid_frog.presentation.screens.profile_detail.components.FloatingActionButtonProfileDetail
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,8 +19,19 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -32,9 +46,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -43,26 +63,65 @@ import androidx.navigation.NavHostController
 fun ProfileDetailScreen(
     navController: NavHostController,
     viewModel: ProfileDetailViewModel = hiltViewModel(),
-    profileId: String
+    profileId: Long
 ) {
-    viewModel.getProfile(profileId)
+    if (viewModel.state.value.appProfile == null) {
+        viewModel.getProfile(profileId)
+    }
+
     val state = viewModel.state.value
+    var expanded by remember{ mutableStateOf(false)}
+    var deletionDialogVisible by remember {mutableStateOf(false)}
 
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
-
     val selectOptions = listOf("Alle aktivieren", "Alle deaktivieren")
 
-    var profileName by remember { mutableStateOf(state.profile?.profileName ?: "") }
-    var profileIsActive by remember { mutableStateOf(state.profile?.isActive ?: false) }
-    var profileIngredientList by remember {
-        mutableStateOf((state.profile?.ingredients ?: emptyList()))
+    var appProfile by remember { mutableStateOf(AppProfile()) }
+
+    if (profileId > 0 && appProfile.id.value < 1 && state.appProfile != null) {
+        appProfile = state.appProfile
     }
 
     Scaffold(topBar = {
-        TopBarHome("Profil bearbeiten")
+        TopBarHome(navController, "Profil bearbeiten", actions = {
+            IconButton(onClick = { expanded = !expanded }) {
+                Icon(Icons.Default.MoreVert, contentDescription = "More options")
+            }
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier =  Modifier
+                    .shadow(2.dp, clip = true)
+                    .background(color = MaterialTheme.colorScheme.surface)
+                    .border(width = 1.dp, shape = RoundedCornerShape(8.dp), color = MaterialTheme.colorScheme.primary)
+            ) {
+                DropdownMenuItem(
+                    leadingIcon = {Icon(Icons.Default.Delete, contentDescription = "Delete profile")},
+                    text = { Text("Profil löschen") },
+                    onClick = {
+                        deletionDialogVisible = true
+                    }
+                )
+
+                DropdownMenuItem(
+                    leadingIcon = {Icon(Icons.Default.Share, contentDescription = "Share profile")},
+                    text = { Text("Profil teilen") },
+                    onClick = { /* Do something... */ }
+                )
+            }
+        })
     }, floatingActionButton = {
-        FloatingActionButtonProfileDetail()
+        ExtendedFloatingActionButton(
+            onClick = {
+                viewModel.saveProfile(
+                    appProfile
+                )
+                navController.navigate(ProfileListScreen)
+            },
+            icon = { Icon(Icons.Default.Done, "Save Profile") },
+            text = { Text(text = "Profil speichern") },
+        )
     }) { innerPadding ->
         Box(
             modifier = Modifier
@@ -79,17 +138,19 @@ fun ProfileDetailScreen(
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     Button(
-                        onClick = { profileIsActive = !profileIsActive },
-                        colors = if (profileIsActive) ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                        onClick = { appProfile.isActive.value = !appProfile.isActive.value },
+                        colors = if (appProfile.isActive.value) ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        )
                         else ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-                    ) { Text(if (profileIsActive) "Profil aktiv" else "Profil inaktiv") }
+                    ) { Text(if (appProfile.isActive.value) "Profil aktiv" else "Profil inaktiv") }
 
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = profileName,
+                        value = appProfile.name.value,
                         label = { Text("Profilname") },
                         placeholder = { Text("Name eintragen") },
-                        onValueChange = { profileName = it },
+                        onValueChange = { appProfile.name.value = it },
                         singleLine = true,
                         shape = RoundedCornerShape(16.dp),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -110,7 +171,7 @@ fun ProfileDetailScreen(
                         modifier = Modifier.padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text(text = "Bitte Zutaten auswählen:")
+                        Text(text = "Bitte Allergene auswählen:")
                         SingleChoiceSegmentedButtonRow(
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -120,7 +181,20 @@ fun ProfileDetailScreen(
                                         index = index,
                                         count = selectOptions.size
                                     ),
-                                    onClick = {},
+                                    onClick = {
+                                        if (index == 0){
+                                            //activate all allergens
+                                            appProfile = appProfile.copy(
+                                                allergens = viewModel.state.value.allergens.toMutableList()
+                                            )
+                                        }
+                                        if(index == 1){
+                                            //deactivate all allergens
+                                            appProfile = appProfile.copy(
+                                                allergens = emptyList<String>().toMutableList()
+                                            )
+                                        }
+                                    },
                                     selected = false,
                                     label = { Text(label) }
                                 )
@@ -131,29 +205,75 @@ fun ProfileDetailScreen(
                             modifier = Modifier
                                 .fillMaxSize()
                         ) {
-                            items(profileIngredientList) { ingredient ->
+                            items(viewModel.state.value.allergens) { allergen ->
                                 Button(
                                     onClick = {
-                                        profileIngredientList =
-                                            profileIngredientList.map { ing ->
-                                                if (ing.id == ingredient.id)
-                                                    ing.copy(isActive = !ing.isActive)
-                                                else
-                                                    ing
-                                            }
+                                        if (appProfile.allergens.contains(allergen)) {
+                                            //REMOVE element if already contained
+                                            val newList = appProfile.allergens - allergen
+                                            appProfile = appProfile.copy(
+                                                allergens = (appProfile.allergens - allergen).toMutableList()
+                                            )
+                                        } else {
+                                            //ADD element if not already contained
+                                            val newList: List<String> =
+                                                appProfile.allergens + allergen
+                                            appProfile = appProfile.copy(
+                                                allergens = (appProfile.allergens + allergen).toMutableList()
+                                            )
+                                        }
                                     },
                                     modifier = Modifier.padding(2.dp),
-                                    colors = if (ingredient.isActive)
+                                    colors = if (appProfile.allergens.contains(allergen))
                                         ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                                     else
                                         ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary)
                                 ) {
-                                    Text(ingredient.ingredientName)
+                                    Text(allergen)
                                 }
                             }
                         }
                     }
                 }
+            }
+            ConfirmationDialog(
+                visible = deletionDialogVisible,
+                infoMessage = buildAnnotatedString {
+                    append("Soll das Profil\n")
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(appProfile.name.value)
+                    }
+                    append("\nwirklich gelöscht werden?")
+                },
+                onConfirmation = {
+                    viewModel.deleteProfile(appProfile)
+                    navController.navigate(ProfileListScreen)
+                    deletionDialogVisible = false
+                    //expanded = false
+                },
+                onDismiss = {
+                    deletionDialogVisible = false
+                    expanded = false
+                }
+            )
+
+            if (viewModel.state.value.error.isNotBlank()) {
+                Text(
+                    text = viewModel.state.value.error,
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .align(Alignment.Center)
+                )
+            }
+
+            if (viewModel.state.value.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                )
             }
         }
     }

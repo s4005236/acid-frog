@@ -2,7 +2,13 @@ package ajahn.dhsn.acid_frog.common
 
 object Constants {
 
-    const val API_BASE_URL = "not yet defined"
+    // ### OPENFOODFACTS API ###
+    //for running in prod
+    private const val PRODUCTION_DEPLOYMENT = "world.openfoodfacts.org"
+    //for running in development, testing
+    private const val STAGING_DEPLOYMENT = "world.openfoodfacts.net"
 
-    const val PARAM_PROFILE_ID = "profileId"
+    const val API_BASE_URL = "https://${STAGING_DEPLOYMENT}/"
+
+
 }

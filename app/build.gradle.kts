@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Compose BOM + core
     implementation(platform(libs.androidx.compose.bom))
@@ -69,8 +70,20 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
 
+    //retrofit
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.converter)
+
+    //json convertion
+    implementation(libs.gson)
+
     // Room
-    implementation(libs.androidx.room.common.jvm)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.tools.core)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.common)
+    ksp(libs.androidx.room.compiler)
+    testImplementation(libs.androidx.room.testing)
 
     //Google Barcode Scanner
     implementation(libs.play.services.code.scanner)
