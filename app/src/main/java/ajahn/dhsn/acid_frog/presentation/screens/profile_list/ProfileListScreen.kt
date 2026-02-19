@@ -40,7 +40,7 @@ fun ProfileListScreen(
 
     Scaffold(
         topBar = {
-            TopBarHome("Profile verwalten")
+            TopBarHome(navController, "Profile verwalten")
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(

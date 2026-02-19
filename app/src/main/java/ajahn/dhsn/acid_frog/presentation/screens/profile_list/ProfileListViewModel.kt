@@ -63,4 +63,40 @@ class ProfileListViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteProfile(appProfile: AppProfile?){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _state.value = state.value.copy(
+                    isLoading = true
+                )
+
+                if (appProfile == null) {
+                    return@withContext
+                }
+
+                profileRepository.deleteProfile(appProfile)
+
+                _state.value = state.value.copy(
+                    isLoading = false
+                )
+            }
+        }
+    }
+
+    fun deleteAllProfiles(){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _state.value = state.value.copy(
+                    isLoading = true
+                )
+
+                profileRepository.deleteAll()
+
+                _state.value = state.value.copy(
+                    isLoading = false
+                )
+            }
+        }
+    }
 }

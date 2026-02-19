@@ -119,13 +119,36 @@ class ProfileDetailViewModel @Inject constructor(
 
                 if (appProfile.id.value == 0L) {
                     val response = profileRepository.insertProfile(appProfile)
-                    //TODO what to do with the response
+                    _state.value = state.value.copy(
+                        isLoading = false
+                    )
                 } else {
                     val response = profileRepository.updateProfile(appProfile)
-                    //TODO what to do with the response
+                    _state.value = state.value.copy(
+                        isLoading = false
+                    )
                 }
             }
         }
+    }
 
+    fun deleteProfile(appProfile: AppProfile?){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _state.value = state.value.copy(
+                    isLoading = true
+                )
+
+                if (appProfile == null) {
+                    return@withContext
+                }
+
+                profileRepository.deleteProfile(appProfile)
+
+                _state.value = state.value.copy(
+                    isLoading = false
+                )
+            }
+        }
     }
 }
