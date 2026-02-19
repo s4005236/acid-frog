@@ -1,11 +1,8 @@
 package ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_result_screen
 
-import ajahn.dhsn.acid_frog.data.database.entity.ProfileEntity
-import ajahn.dhsn.acid_frog.data.database.entity.toAppProfile
-import ajahn.dhsn.acid_frog.data.remote.dto.ProductDto
-import ajahn.dhsn.acid_frog.data.remote.dto.toAppProduct
 import ajahn.dhsn.acid_frog.domain.model.AppProduct
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
+import ajahn.dhsn.acid_frog.domain.model.AppScanResult
 import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import ajahn.dhsn.acid_frog.domain.repository.room.ProfileRepository
 import androidx.compose.runtime.State
@@ -53,6 +50,32 @@ class BarcodeScanResultViewModel @Inject constructor(
 
 
                 //set state data , state loading = false
+
+
+
+                _state.value = state.value.copy(
+                    scanResult = AppScanResult(
+                        profileCount = 23,
+                        scanResultMap = mapOf(
+                            "Milch" to listOf(
+                                AppProfile(
+                                    name = mutableStateOf("Profile eins")
+                                ),
+                                AppProfile(
+                                    name = mutableStateOf("Profile zwei")
+                                )
+                            ),
+                            "Eier" to listOf(
+                                AppProfile(
+                                    name = mutableStateOf("Profile drei")
+                                )
+                        )
+                        ),
+                        appProduct = appProduct ?: AppProduct()
+                    ),
+                    isLoading = false
+                )
+
             }
         }
     }
