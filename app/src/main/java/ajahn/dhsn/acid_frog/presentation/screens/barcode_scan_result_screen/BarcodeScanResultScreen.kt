@@ -161,7 +161,8 @@ fun BarcodeScanResultScreen(
                                                     style = Typography.headlineSmall
                                                 )
                                                 Text (
-                                                    text = "enthalten in folgenden Profilen:"
+                                                    text = "enthalten in:",
+                                                    style = Typography.bodyMedium
                                                 )
                                             }
                                         }

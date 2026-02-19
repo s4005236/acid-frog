@@ -59,17 +59,43 @@ class BarcodeScanResultViewModel @Inject constructor(
                         scanResultMap = mapOf(
                             "Milch" to listOf(
                                 AppProfile(
-                                    name = mutableStateOf("Profile eins")
+                                    name = mutableStateOf("Michael")
                                 ),
                                 AppProfile(
-                                    name = mutableStateOf("Profile zwei")
+                                    name = mutableStateOf("Claudia")
                                 )
                             ),
-                            "Eier" to listOf(
+                            "Gluten" to listOf(
                                 AppProfile(
-                                    name = mutableStateOf("Profile drei")
+                                    name = mutableStateOf("Petra")
                                 )
-                        )
+                        ),
+                            "Gurke" to listOf(
+                                AppProfile(
+                                    name = mutableStateOf("Michael")
+                                ),
+                                AppProfile(
+                                    name = mutableStateOf("Claudia")
+                                )
+                            ),
+                            "Granatapfl" to listOf(
+                                AppProfile(
+                                    name = mutableStateOf("Petra")
+                                )
+                            ),
+                            "Apfel" to listOf(
+                                AppProfile(
+                                    name = mutableStateOf("Michael")
+                                ),
+                                AppProfile(
+                                    name = mutableStateOf("Claudia")
+                                )
+                            ),
+                            "Banane" to listOf(
+                                AppProfile(
+                                    name = mutableStateOf("Petra")
+                                )
+                            )
                         ),
                         appProduct = appProduct ?: AppProduct()
                     ),
