@@ -1,6 +1,5 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_list
 
-import ajahn.dhsn.acid_frog.data.database.entity.toAppProfile
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
 import ajahn.dhsn.acid_frog.domain.repository.room.ProfileRepository
@@ -11,22 +10,16 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
-import java.io.IOException
 
 @HiltViewModel
 class ProfileListViewModel @Inject constructor(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(ProfileListState())
-    val state: StateFlow<ProfileListState> = _state.asStateFlow()
+    private val _state = mutableStateOf(ProfileListState())
+    val state: State<ProfileListState> = _state
 
     init {
         getProfiles()
@@ -35,36 +28,30 @@ class ProfileListViewModel @Inject constructor(
     private fun getProfiles() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _state.update { currentState ->
-                    currentState.copy(isLoading = true)
-                }
+                _state.value = state.value.copy(isLoading = true)
 
                 val response = profileRepository.getAll()
 
                 when (response) {
                     is ResponseWrapper.Success -> {
-                        _state.update { currentState ->
-                            currentState.copy(
-                                isLoading = false,
-                                appProfiles = response.data ?: emptyList()
-                            )
-                        }
+                        _state.value = state.value.copy(
+                            isLoading = false,
+                            appProfiles = response.data ?: emptyList()
+                        )
                     }
 
                     is ResponseWrapper.Error -> {
-                        _state.update { currentState ->
-                            currentState.copy(
-                                isLoading = false,
-                                error = response.errorMessage ?: "An unexpected error occurred"
-                            )
-                        }
+                        _state.value = state.value.copy(
+                            isLoading = false,
+                            error = response.errorMessage ?: "An unexpected error occurred"
+                        )
                     }
                 }
             }
         }
     }
 
-    fun deleteProfile(appProfile: AppProfile?){
+    fun deleteProfile(appProfile: AppProfile?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _state.value = state.value.copy(
@@ -84,7 +71,7 @@ class ProfileListViewModel @Inject constructor(
         }
     }
 
-    fun deleteAllProfiles(){
+    fun deleteAllProfiles() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _state.value = state.value.copy(

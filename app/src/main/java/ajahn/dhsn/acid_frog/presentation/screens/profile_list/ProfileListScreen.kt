@@ -1,6 +1,9 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_list
 
 import ajahn.dhsn.acid_frog.ProfileDetailScreen
+import ajahn.dhsn.acid_frog.ProfileListScreen
+import ajahn.dhsn.acid_frog.domain.model.AppProfile
+import ajahn.dhsn.acid_frog.presentation.components.ConfirmationDialog
 import ajahn.dhsn.acid_frog.presentation.screens.home.components.TopBarHome
 import ajahn.dhsn.acid_frog.presentation.screens.profile_list.components.ProfileListItem
 import androidx.compose.foundation.layout.Box
@@ -20,10 +23,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -36,7 +46,8 @@ fun ProfileListScreen(
 ) {
     val context = LocalContext.current
 
-    val state by viewModel.state.collectAsState()
+    var deletionDialogVisible by remember {mutableStateOf(false)}
+    var clickedProfile by remember {mutableStateOf(AppProfile())}
 
     Scaffold(
         topBar = {
@@ -63,15 +74,42 @@ fun ProfileListScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                items(state.appProfiles) { profile ->
-                    ProfileListItem(appProfile = profile, onItemClick = {
+                items(viewModel.state.value.appProfiles) { profile ->
+                    ProfileListItem(appProfile = profile,
+                        onItemClick = {
                         navController.navigate(ProfileDetailScreen(
                             profileId = profile.id.value
                         ))
-                    })
+                    },
+                        onDeleteClick = {
+                            deletionDialogVisible = true
+                            clickedProfile = profile
+                        }
+                        )
                 }
             }
-            if (state.appProfiles.isEmpty() && !state.error.isNotBlank()){
+
+            ConfirmationDialog(
+                visible = deletionDialogVisible,
+                infoMessage = buildAnnotatedString {
+                    append("Soll das Profil\n")
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(clickedProfile.name.value)
+                    }
+                    append("\nwirklich gelöscht werden?")
+                },
+                onConfirmation = {
+                    viewModel.deleteProfile(clickedProfile)
+                    deletionDialogVisible = false
+                    //navigate for updating UI
+                    navController.navigate(ProfileListScreen)
+                },
+                onDismiss = {
+                    deletionDialogVisible = false
+                }
+            )
+
+            if (viewModel.state.value.appProfiles.isEmpty() && !viewModel.state.value.error.isNotBlank()){
                 Text(
                     text = "Keine Profile vorhanden",
                     color = MaterialTheme.colorScheme.error,
@@ -83,9 +121,9 @@ fun ProfileListScreen(
                 )
             }
 
-            if (state.error.isNotBlank()) {
+            if (viewModel.state.value.error.isNotBlank()) {
                 Text(
-                    text = state.error,
+                    text = viewModel.state.value.error,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -95,7 +133,7 @@ fun ProfileListScreen(
                 )
             }
 
-            if (state.isLoading) {
+            if (viewModel.state.value.isLoading) {
                 CircularProgressIndicator(modifier = Modifier
                     .align(Alignment.Center)
                 )

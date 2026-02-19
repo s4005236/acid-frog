@@ -49,8 +49,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -67,6 +71,7 @@ fun ProfileDetailScreen(
 
     val state = viewModel.state.value
     var expanded by remember{ mutableStateOf(false)}
+    var deletionDialogVisible by remember {mutableStateOf(false)}
 
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
@@ -95,8 +100,7 @@ fun ProfileDetailScreen(
                     leadingIcon = {Icon(Icons.Default.Delete, contentDescription = "Delete profile")},
                     text = { Text("Profil löschen") },
                     onClick = {
-                        viewModel.deleteProfile(appProfile)
-                        navController.navigate(ProfileListScreen)
+                        deletionDialogVisible = true
                     }
                 )
 
@@ -219,6 +223,27 @@ fun ProfileDetailScreen(
                     }
                 }
             }
+            ConfirmationDialog(
+                visible = deletionDialogVisible,
+                infoMessage = buildAnnotatedString {
+                    append("Soll das Profil\n")
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(appProfile.name.value)
+                    }
+                    append("\nwirklich gelöscht werden?")
+                },
+                onConfirmation = {
+                    viewModel.deleteProfile(appProfile)
+                    navController.navigate(ProfileListScreen)
+                    deletionDialogVisible = false
+                    //expanded = false
+                },
+                onDismiss = {
+                    deletionDialogVisible = false
+                    expanded = false
+                }
+            )
+
             if (viewModel.state.value.error.isNotBlank()) {
                 Text(
                     text = viewModel.state.value.error,

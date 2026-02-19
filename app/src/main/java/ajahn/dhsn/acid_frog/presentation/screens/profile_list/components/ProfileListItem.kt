@@ -1,5 +1,6 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_list.components
 
+import ajahn.dhsn.acid_frog.HomeScreen
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.presentation.theme.Typography
 import androidx.compose.foundation.clickable
@@ -7,6 +8,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +27,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ProfileListItem(
     appProfile: AppProfile,
-    onItemClick: (AppProfile) -> Unit
+    onItemClick: (AppProfile) -> Unit,
+    onDeleteClick: (AppProfile) -> Unit
 ) {
     var isActiveButtonState by remember { mutableStateOf(appProfile.isActive) }
 
@@ -30,18 +37,28 @@ fun ProfileListItem(
             .fillMaxWidth()
             .clickable { onItemClick(appProfile) }
             .padding(20.dp),
-        horizontalArrangement = Arrangement
-            .spacedBy(20.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Switch(
-            checked = isActiveButtonState.value,
-            onCheckedChange = { isActiveButtonState.value = !isActiveButtonState.value },
-        )
+        Row(
+            horizontalArrangement = Arrangement
+            .spacedBy(20.dp)
+        ){
+            Switch(
+                checked = isActiveButtonState.value,
+                onCheckedChange = { isActiveButtonState.value = !isActiveButtonState.value },
+            )
 
-        Text(
-            style = Typography.titleMedium,
-            text = appProfile.name.value
-        )
+            Text(
+                style = Typography.titleMedium,
+                text = appProfile.name.value
+            )
+        }
+
+        IconButton(onClick = { onDeleteClick(appProfile) }) {
+            Icon(
+                imageVector = Icons.Default.Delete, contentDescription = "Delete profile"
+            )
+        }
     }
 }
