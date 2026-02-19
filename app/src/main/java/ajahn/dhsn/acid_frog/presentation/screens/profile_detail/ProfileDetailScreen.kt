@@ -181,7 +181,20 @@ fun ProfileDetailScreen(
                                         index = index,
                                         count = selectOptions.size
                                     ),
-                                    onClick = {},
+                                    onClick = {
+                                        if (index == 0){
+                                            //activate all allergens
+                                            appProfile = appProfile.copy(
+                                                allergens = viewModel.state.value.allergens.toMutableList()
+                                            )
+                                        }
+                                        if(index == 1){
+                                            //deactivate all allergens
+                                            appProfile = appProfile.copy(
+                                                allergens = emptyList<String>().toMutableList()
+                                            )
+                                        }
+                                    },
                                     selected = false,
                                     label = { Text(label) }
                                 )
