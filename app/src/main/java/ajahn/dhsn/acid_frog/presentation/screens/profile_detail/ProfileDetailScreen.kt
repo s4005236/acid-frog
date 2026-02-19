@@ -64,7 +64,7 @@ fun ProfileDetailScreen(
 
     var appProfile by remember {mutableStateOf(AppProfile())}
 
-    if (profileId > 0 && appProfile.id < 1 && state.appProfile != null){
+    if (profileId > 0 && appProfile.id.value < 1 && state.appProfile != null){
         appProfile = state.appProfile
     }
 
@@ -97,17 +97,17 @@ fun ProfileDetailScreen(
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     Button(
-                        onClick = { appProfile.isActive = !appProfile.isActive },
-                        colors = if (appProfile.isActive) ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                        onClick = { appProfile.isActive.value = !appProfile.isActive.value },
+                        colors = if (appProfile.isActive.value) ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                         else ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-                    ) { Text(if (appProfile.isActive) "Profil aktiv" else "Profil inaktiv") }
+                    ) { Text(if (appProfile.isActive.value) "Profil aktiv" else "Profil inaktiv") }
 
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = appProfile.name,
+                        value = appProfile.name.value,
                         label = { Text("Profilname") },
                         placeholder = { Text("Name eintragen") },
-                        onValueChange = { appProfile.name = it },
+                        onValueChange = { appProfile.name.value = it },
                         singleLine = true,
                         shape = RoundedCornerShape(16.dp),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -154,10 +154,9 @@ fun ProfileDetailScreen(
                                     onClick = {
 
                                         if (appProfile.allergens.contains(allergen)) {
-                                            appProfile.allergens = appProfile.allergens + allergen
+                                            appProfile.allergens.add(allergen)
                                         } else {
-                                            //TODO turn to mutuable
-                                            //appProfile.allergens.removeAll(allergen)
+                                            appProfile.allergens.remove(allergen)
                                         }
                                     },
                                     modifier = Modifier.padding(2.dp),

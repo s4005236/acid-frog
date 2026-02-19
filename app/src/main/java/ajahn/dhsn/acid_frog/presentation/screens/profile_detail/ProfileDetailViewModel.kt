@@ -117,7 +117,7 @@ class ProfileDetailViewModel @Inject constructor(
                     return@withContext
                 }
 
-                if (appProfile.id == 0L) {
+                if (appProfile.id.value == 0L) {
                     val response = profileRepository.insertProfile(appProfile)
                     //TODO what to do with the response
                 } else {

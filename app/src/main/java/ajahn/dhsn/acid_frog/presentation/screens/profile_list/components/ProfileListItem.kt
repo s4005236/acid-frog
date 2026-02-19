@@ -35,13 +35,13 @@ fun ProfileListItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Switch(
-            checked = isActiveButtonState,
-            onCheckedChange = { isActiveButtonState = !isActiveButtonState },
+            checked = isActiveButtonState.value,
+            onCheckedChange = { isActiveButtonState.value = !isActiveButtonState.value },
         )
 
         Text(
             style = Typography.titleMedium,
-            text = appProfile.name
+            text = appProfile.name.value
         )
     }
 }

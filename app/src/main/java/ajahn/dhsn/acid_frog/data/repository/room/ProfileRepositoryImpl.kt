@@ -13,7 +13,7 @@ class ProfileRepositoryImpl(
     override suspend fun getAll(): ResponseWrapper<List<AppProfile>> {
         return try {
             val profile : List<AppProfile> = dao.getAll().map{
-                AppProfile(it.id)
+                it.toAppProfile()
             }
             ResponseWrapper.Success(profile)
         } catch(e: Exception){
@@ -25,11 +25,7 @@ class ProfileRepositoryImpl(
         return try {
             if (id == 0L){
                 //create new profile
-                ResponseWrapper.Success(AppProfile(
-                    name = "",
-                    allergens = emptyList(),
-                    isActive = false
-                ))
+                ResponseWrapper.Success(AppProfile())
             } else {
                 //get existing profile
                 val profile = dao.getProfileById(id)

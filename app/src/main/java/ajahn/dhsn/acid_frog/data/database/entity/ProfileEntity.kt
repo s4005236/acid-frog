@@ -1,6 +1,7 @@
 package ajahn.dhsn.acid_frog.data.database.entity
 
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
+import androidx.compose.runtime.mutableStateOf
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -16,10 +17,10 @@ data class ProfileEntity(
             appProfile: AppProfile
         ): ProfileEntity {
             return ProfileEntity(
-                id = appProfile.id,
-                name = appProfile.name,
+                id = appProfile.id.value,
+                name = appProfile.name.value,
                 allergens = appProfile.allergens,
-                isActive = appProfile.isActive,
+                isActive = appProfile.isActive.value,
             )
         }
     }
@@ -28,9 +29,9 @@ data class ProfileEntity(
 fun ProfileEntity.toAppProfile(
 ): AppProfile {
     return AppProfile(
-        id = this.id,
-        name = this.name,
-        allergens = this.allergens,
-        isActive = this.isActive,
+        id = mutableStateOf(this.id),
+        name = mutableStateOf(this.name),
+        allergens = this.allergens.toMutableList(),
+        isActive = mutableStateOf(this.isActive),
     )
 }

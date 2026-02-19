@@ -66,7 +66,7 @@ fun ProfileListScreen(
                 items(state.appProfiles) { profile ->
                     ProfileListItem(appProfile = profile, onItemClick = {
                         navController.navigate(ProfileDetailScreen(
-                            profileId = profile.id
+                            profileId = profile.id.value
                         ))
                     })
                 }
