@@ -51,6 +51,33 @@ class ProfileListViewModel @Inject constructor(
         }
     }
 
+    //TODO twin of saveProfile in DetailViewModel, maybe put into Use Case?
+    fun saveProfile(appProfile: AppProfile?) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _state.value = state.value.copy(
+                    isLoading = true
+                )
+
+                if (appProfile == null) {
+                    return@withContext
+                }
+
+                if (appProfile.id.value == 0L) {
+                    val response = profileRepository.insertProfile(appProfile)
+                    _state.value = state.value.copy(
+                        isLoading = false
+                    )
+                } else {
+                    val response = profileRepository.updateProfile(appProfile)
+                    _state.value = state.value.copy(
+                        isLoading = false
+                    )
+                }
+            }
+        }
+    }
+
     fun deleteProfile(appProfile: AppProfile?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {

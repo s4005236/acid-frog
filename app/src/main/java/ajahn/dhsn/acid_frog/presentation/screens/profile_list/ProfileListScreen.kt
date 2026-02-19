@@ -81,6 +81,13 @@ fun ProfileListScreen(
                             profileId = profile.id.value
                         ))
                     },
+                        onIsActiveToggle = {
+                            val toggledIsActiveProfile = profile.copy(
+                                isActive = mutableStateOf(!profile.isActive.value)
+                            )
+                            viewModel.saveProfile(toggledIsActiveProfile)
+                            navController.navigate(ProfileListScreen)
+                        },
                         onDeleteClick = {
                             deletionDialogVisible = true
                             clickedProfile = profile

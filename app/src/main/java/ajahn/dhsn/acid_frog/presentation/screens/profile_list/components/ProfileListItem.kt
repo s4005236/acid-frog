@@ -28,7 +28,8 @@ import androidx.compose.ui.unit.dp
 fun ProfileListItem(
     appProfile: AppProfile,
     onItemClick: (AppProfile) -> Unit,
-    onDeleteClick: (AppProfile) -> Unit
+    onDeleteClick: (AppProfile) -> Unit,
+    onIsActiveToggle: (AppProfile) -> Unit
 ) {
     var isActiveButtonState by remember { mutableStateOf(appProfile.isActive) }
 
@@ -45,8 +46,10 @@ fun ProfileListItem(
             .spacedBy(20.dp)
         ){
             Switch(
-                checked = isActiveButtonState.value,
-                onCheckedChange = { isActiveButtonState.value = !isActiveButtonState.value },
+                checked = appProfile.isActive.value,
+                onCheckedChange = {
+                    onIsActiveToggle(appProfile)
+                                  },
             )
 
             Text(
