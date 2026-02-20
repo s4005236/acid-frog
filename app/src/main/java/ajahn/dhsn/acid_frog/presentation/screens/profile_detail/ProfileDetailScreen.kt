@@ -108,7 +108,7 @@ fun ProfileDetailScreen(
                     leadingIcon = {Icon(Icons.Default.Share, contentDescription = "Share profile")},
                     text = { Text("Profil teilen") },
                     onClick = {
-                    //TODO enable sharing functionality
+                        viewModel.shareProfile(context, appProfile)
                     }
                 )
             }

@@ -4,12 +4,15 @@ import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
 import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import ajahn.dhsn.acid_frog.domain.repository.room.ProfileRepository
+import android.content.Context
+import android.content.Intent
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +24,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
+import java.net.URLEncoder
 
 @HiltViewModel
 class ProfileDetailViewModel @Inject constructor(
@@ -151,5 +155,17 @@ class ProfileDetailViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun shareProfile(context : Context, appProfile: AppProfile){
+        val jsonAppProfile = Gson().toJson(appProfile)
+        val encodedAppProfile = URLEncoder.encode(jsonAppProfile, "UTF-8")
+        val sharableLink = "https://acidfrog.com/share?data=$encodedAppProfile"
+
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, sharableLink)
+        }
+        context.startActivity(Intent.createChooser(shareIntent, "Per Link teilen"))
     }
 }

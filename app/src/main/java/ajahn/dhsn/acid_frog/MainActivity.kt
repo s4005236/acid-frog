@@ -4,6 +4,7 @@ import ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_result_screen.Barc
 import ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_screen.BarcodeScanScreen
 import ajahn.dhsn.acid_frog.presentation.screens.home.HomeScreen
 import ajahn.dhsn.acid_frog.presentation.screens.profile_detail.ProfileDetailScreen
+import ajahn.dhsn.acid_frog.presentation.screens.profile_import.ProfileImportScreen
 import ajahn.dhsn.acid_frog.presentation.screens.profile_list.ProfileListScreen
 import ajahn.dhsn.acid_frog.presentation.theme.AcidFrogTheme
 import android.os.Bundle
@@ -30,6 +31,11 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = HomeScreen
                 ){
+                    composable("share?data={data}"){ backStackEntry ->
+                        val args = backStackEntry.arguments?.getString("data") ?: ""
+                        ProfileImportScreen(navController = navController, importData = args)
+                    }
+
                     composable<HomeScreen>{
                         HomeScreen(navController = navController)
                     }
