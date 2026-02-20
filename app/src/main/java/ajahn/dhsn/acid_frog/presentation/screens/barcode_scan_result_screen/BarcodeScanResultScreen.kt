@@ -1,5 +1,6 @@
 package ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_result_screen
 
+import ajahn.dhsn.acid_frog.presentation.screens.home.components.TopBarHome
 import ajahn.dhsn.acid_frog.presentation.theme.Typography
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,10 +18,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -54,7 +51,10 @@ fun BarcodeScanResultScreen(
 
     val context = LocalContext.current
 
-    Scaffold() { innerPadding ->
+    Scaffold(
+        topBar = {
+            TopBarHome(navController, "Acid Frog")
+        }) { innerPadding ->
         Box(
             modifier = Modifier
                 .padding(innerPadding)
@@ -155,12 +155,12 @@ fun BarcodeScanResultScreen(
                                         Row(
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
-                                            Column{
+                                            Column {
                                                 Text(
                                                     text = scanResult.key,
                                                     style = Typography.headlineSmall
                                                 )
-                                                Text (
+                                                Text(
                                                     text = "enthalten in:",
                                                     style = Typography.bodyMedium
                                                 )
