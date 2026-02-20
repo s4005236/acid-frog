@@ -50,7 +50,7 @@ class BarcodeScanResultViewModel @Inject constructor(
 
                     when (getProductResponse) {
                         is ResponseWrapper.Success -> {
-                            appProduct = getProductResponse.data!!
+                            appProduct = getProductResponse.data ?: AppProduct()
                         }
 
                         is ResponseWrapper.Error -> {
@@ -66,7 +66,7 @@ class BarcodeScanResultViewModel @Inject constructor(
 
                     when (getAllProfilesResponse) {
                         is ResponseWrapper.Success -> {
-                            profiles = getAllProfilesResponse.data!!
+                            profiles = getAllProfilesResponse.data ?: emptyList()
                         }
 
                         is ResponseWrapper.Error -> {
@@ -94,7 +94,7 @@ class BarcodeScanResultViewModel @Inject constructor(
 
                 var appScanResult : AppScanResult = AppScanResult()
 
-
+                
 
 
 

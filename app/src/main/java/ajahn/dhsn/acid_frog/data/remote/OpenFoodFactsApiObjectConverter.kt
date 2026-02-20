@@ -6,21 +6,18 @@ import java.util.UUID
 
 object OpenFoodFactsApiObjectConverter {
     fun productDto2AppProduct(productDto: ProductDto): AppProduct {
+        println(productDto)
         return AppProduct(
             code = productDto.code,
             status = productDto.status,
             status_verbose = productDto.statusVerbose,
             name = "${productDto.product.brands} ${productDto.product.productNameDe}",
-            ingredients = allergens2Ingredients(
-                productDto.product.allergens,
-                productDto.product.allergensFromIngredients
-            )
+            ingredients = (productDto.product.allergens
+                .split(",")
+                    + productDto.product.allergensFromIngredients.split(",")
+                    ).map{
+                    it.trim().substringAfter(":")
+                }
         )
-    }
-
-    private fun allergens2Ingredients(vararg allergens: String): List<String> {
-        val allergens = allergens.toList()
-        val ingredients : List<String> = allergens
-        return ingredients
     }
 }

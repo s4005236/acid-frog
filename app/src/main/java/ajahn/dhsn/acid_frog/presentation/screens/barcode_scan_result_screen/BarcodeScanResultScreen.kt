@@ -120,7 +120,7 @@ fun BarcodeScanResultScreen(
                             ) {
                                 append("In Ordnung\n")
                             }
-                            append("Das Produkt enthält keine kritische Zutaten!")
+                            append("Das Produkt enthält keine kritischen Zutaten!")
                         })
                     }
 
