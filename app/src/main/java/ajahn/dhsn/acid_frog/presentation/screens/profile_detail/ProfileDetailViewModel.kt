@@ -162,6 +162,8 @@ class ProfileDetailViewModel @Inject constructor(
         val encodedAppProfile = URLEncoder.encode(jsonAppProfile, "UTF-8")
         val sharableLink = "https://acidfrog.com/share?data=$encodedAppProfile"
 
+        //TODO obfuscate data for sharing
+
         val shareIntent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, sharableLink)
