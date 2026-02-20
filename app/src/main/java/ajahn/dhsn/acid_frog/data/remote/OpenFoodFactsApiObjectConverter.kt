@@ -14,10 +14,11 @@ object OpenFoodFactsApiObjectConverter {
             name = "${productDto.product.brands} ${productDto.product.productNameDe}",
             ingredients = (productDto.product.allergens
                 .split(",")
-                    + productDto.product.allergensFromIngredients.split(",")
-                    ).map{
+                    + productDto.product.allergensFromIngredients.split(","))
+                .map{
                     it.trim().substringAfter(":")
                 }
+                .distinct()
         )
     }
 }

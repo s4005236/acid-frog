@@ -38,7 +38,7 @@ class BarcodeScanResultViewModel @Inject constructor(
                     isLoading = true
                 )
 
-                //data retrieval
+                // data retrieval
 
                 var scannedAppProduct : AppProduct = AppProduct()
                 var activeProfiles : List<AppProfile> = emptyList()
@@ -92,37 +92,23 @@ class BarcodeScanResultViewModel @Inject constructor(
                 //data processing
 
                 var appScanResult : AppScanResult = AppScanResult()
-                var profileCounter : Int = 0
-
-                println("\n\nLOG:####### DATA PROCESSING ########")
+                /**list used for calculating [AppScanResult.profileCount]*/
+                val affectedProfiles : MutableList<AppProfile> = mutableListOf()
 
                 scannedAppProduct.ingredients.forEach { ingredient->
-
-                    println("\nLOG: NEUES INGREDIENT -----------------------")
-
-                    println("LOG: Profile Counter Stand: ${profileCounter}")
-
-                    println("LOG: Analysiere Ingredient: ${ingredient}")
 
                     val allergenProfileList : MutableList<AppProfile> = mutableListOf()
 
                     activeProfiles.forEach { profile ->
-                        println("LOG: Analysiere Profil ${profile.name} auf ${ingredient}")
-
                         if(profile.allergens.any{
                             it.contains(ingredient, ignoreCase = true)
                         }){
-                            println("LOG: Profile ${profile.name} enthält ${ingredient} und wird deswegen der allergenProfilListe hinzugefügt")
                             allergenProfileList.add(profile)
                         }
                     }
 
-                    println("LOG: Dem AppScanResult wird folgende Map nun hinzugefügt: ${mapOf(
-                        ingredient to allergenProfileList
-                    )}")
-
                     if (allergenProfileList.isNotEmpty()){
-                        profileCounter = profileCounter + allergenProfileList.size
+                        affectedProfiles.addAll(allergenProfileList)
                         appScanResult = appScanResult.copy(
                             scanResultMap = appScanResult.scanResultMap + mapOf(
                                 ingredient to allergenProfileList
@@ -132,15 +118,9 @@ class BarcodeScanResultViewModel @Inject constructor(
                 }
 
                 appScanResult = appScanResult.copy(
-                    profileCount = profileCounter,
+                    profileCount = affectedProfiles.distinct().size,
                     appProduct = scannedAppProduct
                 )
-
-                println(appScanResult)
-                println("break stuff")
-
-
-                //set state data , state loading = false
 
                 //set state
                 _state.value = state.value.copy(
