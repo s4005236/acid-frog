@@ -7,5 +7,3 @@ data class AppProduct(
     val name: String = "",
     val ingredients : List<String> = emptyList()
 )
-
-//TODO maybe put mutuableStateOf
