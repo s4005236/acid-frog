@@ -6,7 +6,6 @@ import ajahn.dhsn.acid_frog.domain.model.AppScanResult
 import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
 import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import ajahn.dhsn.acid_frog.domain.repository.room.ProfileRepository
-import android.net.wifi.ScanResult
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -41,8 +40,8 @@ class BarcodeScanResultViewModel @Inject constructor(
 
                 //data retrieval
 
-                var appProduct : AppProduct = AppProduct()
-                var profiles : List<AppProfile> = emptyList()
+                var scannedAppProduct : AppProduct = AppProduct()
+                var activeProfiles : List<AppProfile> = emptyList()
 
                 try {
 
@@ -50,7 +49,7 @@ class BarcodeScanResultViewModel @Inject constructor(
 
                     when (getProductResponse) {
                         is ResponseWrapper.Success -> {
-                            appProduct = getProductResponse.data ?: AppProduct()
+                            scannedAppProduct = getProductResponse.data ?: AppProduct()
                         }
 
                         is ResponseWrapper.Error -> {
@@ -66,7 +65,7 @@ class BarcodeScanResultViewModel @Inject constructor(
 
                     when (getAllProfilesResponse) {
                         is ResponseWrapper.Success -> {
-                            profiles = getAllProfilesResponse.data ?: emptyList()
+                            activeProfiles = getAllProfilesResponse.data?.filter { it.isActive.value } ?: emptyList()
                         }
 
                         is ResponseWrapper.Error -> {
@@ -93,27 +92,52 @@ class BarcodeScanResultViewModel @Inject constructor(
                 //data processing
 
                 var appScanResult : AppScanResult = AppScanResult()
+                var profileCounter : Int = 0
 
-                
+                println("\n\nLOG:####### DATA PROCESSING ########")
 
+                scannedAppProduct.ingredients.forEach { ingredient->
 
+                    println("\nLOG: NEUES INGREDIENT -----------------------")
 
-                //TODO begin processing data
-                //get from repositories
-//                val appProduct: AppProduct? =
-//                    productRepository.getProductByCode(productBarcode).data
-                val responseAppProfiles = profileRepository.getAll()
+                    println("LOG: Profile Counter Stand: ${profileCounter}")
 
-                println("Received a appProduct from repo: ${appProduct}")
-                println("Received a appProfile from repo: ${profiles}")
+                    println("LOG: Analysiere Ingredient: ${ingredient}")
 
-                println("set break point here")
+                    val allergenProfileList : MutableList<AppProfile> = mutableListOf()
 
-                //process received data
+                    activeProfiles.forEach { profile ->
+                        println("LOG: Analysiere Profil ${profile.name} auf ${ingredient}")
 
+                        if(profile.allergens.any{
+                            it.contains(ingredient, ignoreCase = true)
+                        }){
+                            println("LOG: Profile ${profile.name} enthält ${ingredient} und wird deswegen der allergenProfilListe hinzugefügt")
+                            allergenProfileList.add(profile)
+                        }
+                    }
 
+                    println("LOG: Dem AppScanResult wird folgende Map nun hinzugefügt: ${mapOf(
+                        ingredient to allergenProfileList
+                    )}")
 
+                    if (allergenProfileList.isNotEmpty()){
+                        profileCounter = profileCounter + allergenProfileList.size
+                        appScanResult = appScanResult.copy(
+                            scanResultMap = appScanResult.scanResultMap + mapOf(
+                                ingredient to allergenProfileList
+                            )
+                        )
+                    }
+                }
 
+                appScanResult = appScanResult.copy(
+                    profileCount = profileCounter,
+                    appProduct = scannedAppProduct
+                )
+
+                println(appScanResult)
+                println("break stuff")
 
 
                 //set state data , state loading = false

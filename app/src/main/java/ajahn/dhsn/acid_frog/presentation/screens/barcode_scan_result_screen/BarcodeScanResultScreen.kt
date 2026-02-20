@@ -157,11 +157,11 @@ fun BarcodeScanResultScreen(
                                         ) {
                                             Column {
                                                 Text(
-                                                    text = scanResult.key,
+                                                    text = "\"${scanResult.key}\"",
                                                     style = Typography.headlineSmall
                                                 )
                                                 Text(
-                                                    text = "enthalten in:",
+                                                    text = "enthalten in Profil:",
                                                     style = Typography.bodyMedium
                                                 )
                                             }
