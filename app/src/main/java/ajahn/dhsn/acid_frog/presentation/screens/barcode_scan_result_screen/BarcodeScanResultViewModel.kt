@@ -1,11 +1,9 @@
 package ajahn.dhsn.acid_frog.presentation.screens.barcode_scan_result_screen
 
-import ajahn.dhsn.acid_frog.data.database.entity.ProfileEntity
-import ajahn.dhsn.acid_frog.data.database.entity.toAppProfile
-import ajahn.dhsn.acid_frog.data.remote.dto.ProductDto
-import ajahn.dhsn.acid_frog.data.remote.dto.toAppProduct
 import ajahn.dhsn.acid_frog.domain.model.AppProduct
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
+import ajahn.dhsn.acid_frog.domain.model.AppScanResult
+import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
 import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import ajahn.dhsn.acid_frog.domain.repository.room.ProfileRepository
 import androidx.compose.runtime.State
@@ -17,6 +15,8 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.io.IOException
 
 @HiltViewModel
 class BarcodeScanResultViewModel @Inject constructor(
@@ -38,21 +38,96 @@ class BarcodeScanResultViewModel @Inject constructor(
                     isLoading = true
                 )
 
-                //TODO begin processing data
-                //get from repositories
-                val appProduct: AppProduct? = productRepository.getProductByCode(productBarcode).data
-                val appProfile : AppProfile? = profileRepository.getProfileById(1).data
+                // data retrieval
 
-                println("Received a appProduct from repo: ${appProduct}")
-                println("Received a appProfile from repo: ${appProfile}")
+                var scannedAppProduct : AppProduct = AppProduct()
+                var activeProfiles : List<AppProfile> = emptyList()
 
-                println("set break point here")
+                try {
 
-                //process received data
+                    val getProductResponse = productRepository.getProductByCode(productBarcode)
+
+                    when (getProductResponse) {
+                        is ResponseWrapper.Success -> {
+                            scannedAppProduct = getProductResponse.data ?: AppProduct()
+                        }
+
+                        is ResponseWrapper.Error -> {
+                            _state.value = state.value.copy(
+                                isLoading = false,
+                                error = getProductResponse.errorMessage ?: "An unexpected error occurred"
+                            )
+                        }
+
+                    }
+
+                    val getAllProfilesResponse = profileRepository.getAll()
+
+                    when (getAllProfilesResponse) {
+                        is ResponseWrapper.Success -> {
+                            activeProfiles = getAllProfilesResponse.data?.filter { it.isActive.value } ?: emptyList()
+                        }
+
+                        is ResponseWrapper.Error -> {
+                            _state.value = state.value.copy(
+                                isLoading = false,
+                                error = getAllProfilesResponse.errorMessage ?: "An unexpected error occurred"
+                            )
+                        }
+                    }
+
+                } catch (e: HttpException) {
+                    _state.value = state.value.copy(
+                        isLoading = false,
+                        error = e.localizedMessage ?: "An unexpected error occured"
+                    )
+                } catch (e: IOException) {
+                    _state.value = state.value.copy(
+                        isLoading = false,
+                        error = "Couldn't reach server. Check your internet connection."
+                    )
+                }
 
 
+                //data processing
 
-                //set state data , state loading = false
+                var appScanResult : AppScanResult = AppScanResult()
+                /**list used for calculating [AppScanResult.profileCount]*/
+                val affectedProfiles : MutableList<AppProfile> = mutableListOf()
+
+                scannedAppProduct.ingredients.forEach { ingredient->
+
+                    val allergenProfileList : MutableList<AppProfile> = mutableListOf()
+
+                    activeProfiles.forEach { profile ->
+                        if(profile.allergens.any{
+                            it.contains(ingredient, ignoreCase = true)
+                        }){
+                            allergenProfileList.add(profile)
+                        }
+                    }
+
+                    if (allergenProfileList.isNotEmpty()){
+                        affectedProfiles.addAll(allergenProfileList)
+                        appScanResult = appScanResult.copy(
+                            scanResultMap = appScanResult.scanResultMap + mapOf(
+                                ingredient to allergenProfileList
+                            )
+                        )
+                    }
+                }
+
+                appScanResult = appScanResult.copy(
+                    profileCount = affectedProfiles.distinct().size,
+                    appProduct = scannedAppProduct
+                )
+
+                //set state
+                _state.value = state.value.copy(
+                    scanResult = appScanResult,
+                    isLoading = false
+                )
+
             }
         }
     }
