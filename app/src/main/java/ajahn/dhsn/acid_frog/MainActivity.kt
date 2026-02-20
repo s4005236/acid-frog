@@ -23,17 +23,19 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             AcidFrogTheme {
                 val navController = rememberNavController()
 
                 NavHost(
                     navController = navController,
-                    startDestination = HomeScreen
+                    startDestination = if (intent.dataString != null) ProfileImportScreen else HomeScreen
                 ){
-                    composable("share?data={data}"){ backStackEntry ->
-                        val args = backStackEntry.arguments?.getString("data") ?: ""
-                        ProfileImportScreen(navController = navController, importData = args)
+                    composable<ProfileImportScreen>{
+                        val importData = intent.dataString?.substringAfter("data=") ?: ""
+
+                        ProfileImportScreen(navController = navController, importData = importData)
                     }
 
                     composable<HomeScreen>{
@@ -61,6 +63,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Serializable
+object ProfileImportScreen
 @Serializable
 object HomeScreen
 @Serializable

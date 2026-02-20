@@ -1,9 +1,7 @@
 package ajahn.dhsn.acid_frog.presentation.screens.profile_import
 
-import ajahn.dhsn.acid_frog.presentation.screens.profile_detail.ProfileDetailViewModel
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 
 @Composable
@@ -12,6 +10,10 @@ fun ProfileImportScreen(
     importData: String
 ) {
     Text(importData)
+
+
+
+    //TODO extract from deep link
 
     //TODO put data as new profile
     //TODO navigate to Profile Detail View after profile was created

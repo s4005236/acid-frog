@@ -7,8 +7,6 @@ import ajahn.dhsn.acid_frog.domain.repository.room.ProfileRepository
 import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,10 +14,6 @@ import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -160,7 +154,7 @@ class ProfileDetailViewModel @Inject constructor(
     fun shareProfile(context : Context, appProfile: AppProfile){
         val jsonAppProfile = Gson().toJson(appProfile)
         val encodedAppProfile = URLEncoder.encode(jsonAppProfile, "UTF-8")
-        val sharableLink = "https://acidfrog.com/share?data=$encodedAppProfile"
+        val sharableLink = "app://acidfrog.app/share?data=$encodedAppProfile"
 
         //TODO obfuscate data for sharing
 
