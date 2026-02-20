@@ -33,9 +33,9 @@ class MainActivity : ComponentActivity() {
                     startDestination = if (intent.dataString != null) ProfileImportScreen else HomeScreen
                 ){
                     composable<ProfileImportScreen>{
-                        val importData = intent.dataString?.substringAfter("data=") ?: ""
+                        val dataString = intent.dataString ?: ""
 
-                        ProfileImportScreen(navController = navController, importData = importData)
+                        ProfileImportScreen(navController = navController, dataString = dataString)
                     }
 
                     composable<HomeScreen>{

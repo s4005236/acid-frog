@@ -152,7 +152,10 @@ class ProfileDetailViewModel @Inject constructor(
     }
 
     fun shareProfile(context : Context, appProfile: AppProfile){
-        val jsonAppProfile = Gson().toJson(appProfile)
+
+        //TODO encode profile to share
+
+        val jsonAppProfile = Gson().toJson(rawData)
         val encodedAppProfile = URLEncoder.encode(jsonAppProfile, "UTF-8")
         val sharableLink = "app://acidfrog.app/share?data=$encodedAppProfile"
 
