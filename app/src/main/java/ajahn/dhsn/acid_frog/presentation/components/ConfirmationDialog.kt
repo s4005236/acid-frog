@@ -20,6 +20,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
+/**
+ * A composable dialog for displaying a confirmation prompt to the user.
+ *
+ * This dialog shows an informational message and provides two buttons for user confirmation or dismissal.
+ * It is typically used to confirm critical actions before execution.
+ *
+ * @param visible Controls the visibility of the dialog. If `false`, the dialog is not displayed.
+ * @param infoMessage The message to display in the dialog, as an [AnnotatedString].
+ * @param onConfirmation Callback invoked when the user confirms the action.
+ * @param onDismiss Callback invoked when the user dismisses the dialog.
+ */
 @Composable
 fun ConfirmationDialog(
     visible: Boolean,
@@ -40,29 +51,31 @@ fun ConfirmationDialog(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding (20.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                ){
-                Icon(Icons.Default.Info, contentDescription = "Info Icon", modifier = Modifier.padding(8.dp))
-
-                Text(text = infoMessage, textAlign = TextAlign.Center)
-
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(20.dp)
+                        .padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    TextButton(
-                        onClick = { onDismiss() },
+                    Icon(
+                        Icons.Default.Info,
+                        contentDescription = "Info Icon",
+                        modifier = Modifier.padding(8.dp)
+                    )
+                    Text(text = infoMessage, textAlign = TextAlign.Center)
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ) {
-                        Text("Abbrechen")
-                    }
-                    TextButton(
-                        onClick = { onConfirmation() },
-                    ) {
-                        Text("Bestätigen")
+                        TextButton(
+                            onClick = { onDismiss() },
+                        ) {
+                            Text("Abbrechen")
+                        }
+                        TextButton(
+                            onClick = { onConfirmation() },
+                        ) {
+                            Text("Bestätigen")
+                        }
                     }
                 }
-            }
             }
         }
     }

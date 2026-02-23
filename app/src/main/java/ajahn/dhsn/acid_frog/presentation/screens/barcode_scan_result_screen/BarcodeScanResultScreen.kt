@@ -39,12 +39,24 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 
 
+/**
+ * Composable screen for displaying the results of a barcode scan.
+ *
+ * This screen shows the scan result overview, including the number of affected profiles,
+ * product details, and a list of critical ingredients if any are found. It also handles
+ * loading and error states.
+ *
+ * @param navController The [NavController] for handling navigation.
+ * @param viewModel The [BarcodeScanResultViewModel] providing the scan result data and business logic.
+ * @param barcode The barcode string used to fetch the product details.
+ */
 @Composable
 fun BarcodeScanResultScreen(
     navController: NavController,
     viewModel: BarcodeScanResultViewModel = hiltViewModel(),
     barcode: String
 ) {
+    // If the scan result is not yet loaded, fetch it using the barcode
     if (viewModel.state.value.scanResult == null) {
         viewModel.getAppScanResult(barcode)
     }
@@ -64,7 +76,7 @@ fun BarcodeScanResultScreen(
                     .padding(horizontal = 20.dp, vertical = 60.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                //overview row
+                // Overview row: Displays the number of affected profiles and a warning or success message
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -123,12 +135,10 @@ fun BarcodeScanResultScreen(
                             append("Das Produkt enthält keine kritischen Zutaten!")
                         })
                     }
-
                 }
 
-                //detail row
+                // Detail row: Displays a list of critical ingredients and affected profiles
                 if ((viewModel.state.value.scanResult?.profileCount ?: 0) > 0) {
-
                     Box(
                         modifier = Modifier
                             .border(
@@ -192,13 +202,7 @@ fun BarcodeScanResultScreen(
                 }
             }
 
-
-
-
-
-
-
-
+            // Error state: Displays any error messages
             if (viewModel.state.value.error.isNotBlank()) {
                 Text(
                     text = viewModel.state.value.error,
@@ -211,6 +215,7 @@ fun BarcodeScanResultScreen(
                 )
             }
 
+            // Loading state: Displays a progress indicator while data is being fetched
             if (viewModel.state.value.isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier
