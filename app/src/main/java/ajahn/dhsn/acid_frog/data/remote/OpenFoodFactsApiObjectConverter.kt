@@ -5,7 +5,6 @@ import ajahn.dhsn.acid_frog.domain.model.AppProduct
 
 object OpenFoodFactsApiObjectConverter {
     fun productDto2AppProduct(productDto: ProductDto): AppProduct {
-        println(productDto)
         return AppProduct(
             code = productDto.code,
             status = productDto.status,

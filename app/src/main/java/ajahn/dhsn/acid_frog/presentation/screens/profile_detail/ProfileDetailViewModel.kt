@@ -2,10 +2,12 @@ package ajahn.dhsn.acid_frog.presentation.screens.profile_detail
 
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
+import ajahn.dhsn.acid_frog.domain.model.SharableAppProfile
 import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import ajahn.dhsn.acid_frog.domain.repository.room.ProfileRepository
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -16,9 +18,11 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.URLEncoder
+import androidx.core.net.toUri
 
 @HiltViewModel
 class ProfileDetailViewModel @Inject constructor(
@@ -51,9 +55,9 @@ class ProfileDetailViewModel @Inject constructor(
 
                         is ResponseWrapper.Error -> {
                             _state.value = state.value.copy(
-                                    isLoading = false,
-                                    error = response.errorMessage ?: "An unexpected error occurred"
-                                )
+                                isLoading = false,
+                                error = response.errorMessage ?: "An unexpected error occurred"
+                            )
                         }
                     }
                 } catch (e: HttpException) {
@@ -87,10 +91,6 @@ class ProfileDetailViewModel @Inject constructor(
                             isLoading = false,
                             appProfile = response.data
                         )
-
-                        println("ID: ${response.data?.id}")
-                        println("Trying to save ${response.data?.name}")
-                        println("This includes the allergens ${response.data?.allergens}")
                     }
 
                     is ResponseWrapper.Error -> {
@@ -131,7 +131,7 @@ class ProfileDetailViewModel @Inject constructor(
         }
     }
 
-    fun deleteProfile(appProfile: AppProfile?){
+    fun deleteProfile(appProfile: AppProfile?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _state.value = state.value.copy(
@@ -151,15 +151,20 @@ class ProfileDetailViewModel @Inject constructor(
         }
     }
 
-    fun shareProfile(context : Context, appProfile: AppProfile){
+    fun shareProfile(context: Context, appProfile: AppProfile) {
 
-        //TODO encode profile to share
+        val sharableAppProfile = SharableAppProfile(
+            id = appProfile.id.value,
+            name = appProfile.name.value,
+            allergens = appProfile.allergens,
+            isActive = appProfile.isActive.value
+        )
 
-        val jsonAppProfile = Gson().toJson(rawData)
+
+        val jsonAppProfile: String = Json.encodeToString(sharableAppProfile)
+//
         val encodedAppProfile = URLEncoder.encode(jsonAppProfile, "UTF-8")
         val sharableLink = "app://acidfrog.app/share?data=$encodedAppProfile"
-
-        //TODO obfuscate data for sharing
 
         val shareIntent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
