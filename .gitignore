@@ -23,10 +23,13 @@ captures/
 .DS_Store
 Thumbs.db
 
-# APK / AAB / bundle files
+# APK / AAB / bundle files / release
 *.apk
 *.ap_
 *.aab
+*.apks
+app/build/
+app/release/
 
 # Dalvik/ART
 *.dex
