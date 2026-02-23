@@ -107,7 +107,9 @@ fun ProfileDetailScreen(
                 DropdownMenuItem(
                     leadingIcon = {Icon(Icons.Default.Share, contentDescription = "Share profile")},
                     text = { Text("Profil teilen") },
-                    onClick = { /* Do something... */ }
+                    onClick = {
+                        viewModel.shareProfile(context, appProfile)
+                    }
                 )
             }
         })

@@ -1,7 +1,6 @@
 package ajahn.dhsn.acid_frog.domain.model
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 
 data class AppProfile(

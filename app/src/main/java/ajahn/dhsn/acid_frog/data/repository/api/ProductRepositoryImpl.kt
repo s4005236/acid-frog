@@ -1,13 +1,11 @@
 package ajahn.dhsn.acid_frog.data.repository.api
 
 import ajahn.dhsn.acid_frog.data.remote.OpenFoodFactsApi
-import ajahn.dhsn.acid_frog.data.remote.dto.ProductDto
 import ajahn.dhsn.acid_frog.data.remote.dto.toAppProduct
 import ajahn.dhsn.acid_frog.domain.model.AppProduct
 import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
 import ajahn.dhsn.acid_frog.domain.repository.api.ProductRepository
 import jakarta.inject.Inject
-import java.io.IOException
 
 class ProductRepositoryImpl @Inject constructor(
     private val api: OpenFoodFactsApi

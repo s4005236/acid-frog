@@ -1,9 +1,7 @@
 package ajahn.dhsn.acid_frog.domain.repository.room
 
-import ajahn.dhsn.acid_frog.data.database.entity.ProfileEntity
 import ajahn.dhsn.acid_frog.domain.model.AppProfile
 import ajahn.dhsn.acid_frog.domain.model.ResponseWrapper
-import kotlinx.coroutines.flow.Flow
 
 interface ProfileRepository {
     suspend fun getAll(): ResponseWrapper<List<AppProfile>>
