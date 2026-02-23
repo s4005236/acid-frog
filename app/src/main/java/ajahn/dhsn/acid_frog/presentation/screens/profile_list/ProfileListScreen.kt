@@ -38,6 +38,21 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 
 
+/**
+ * Composable screen for displaying and managing a list of user profiles.
+ *
+ * This screen provides a list of profiles with options to:
+ * - View and edit a profile.
+ * - Toggle a profile's active status.
+ * - Delete a profile.
+ * - Add a new profile.
+ *
+ * The screen uses a [Scaffold] with a top bar, a floating action button for adding new profiles,
+ * and a lazy column to display the profile list. It also handles loading, empty, and error states.
+ *
+ * @param navController The [NavController] for handling navigation to other screens.
+ * @param viewModel The [ProfileListViewModel] providing the profile list data and business logic.
+ */
 @Composable
 fun ProfileListScreen(
     navController: NavController,
@@ -45,8 +60,9 @@ fun ProfileListScreen(
 ) {
     val context = LocalContext.current
 
-    var deletionDialogVisible by remember {mutableStateOf(false)}
-    var clickedProfile by remember {mutableStateOf(AppProfile())}
+    // State for deletion dialog visibility and the selected profile
+    var deletionDialogVisible by remember { mutableStateOf(false) }
+    var clickedProfile by remember { mutableStateOf(AppProfile()) }
 
     Scaffold(
         topBar = {
@@ -55,12 +71,11 @@ fun ProfileListScreen(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {
-                    navController.navigate(ProfileDetailScreen(
-                        profileId = 0L
-                    ))
+                    // Navigate to add a new profile
+                    navController.navigate(ProfileDetailScreen(profileId = 0L))
                 },
                 icon = { Icon(Icons.Default.Add, "Add Profile") },
-                text = { Text(text = "Profil hinzufügen") },
+                text = { Text(text = "Profil hinzufügen") }
             )
         }
     ) { innerPadding ->
@@ -69,18 +84,19 @@ fun ProfileListScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
+            // Profile list
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             ) {
                 items(viewModel.state.value.appProfiles) { profile ->
-                    ProfileListItem(appProfile = profile,
+                    ProfileListItem(
+                        appProfile = profile,
                         onItemClick = {
-                        navController.navigate(ProfileDetailScreen(
-                            profileId = profile.id.value
-                        ))
-                    },
+                            // Navigate to profile detail
+                            navController.navigate(ProfileDetailScreen(profileId = profile.id.value))
+                        },
                         onIsActiveToggle = {
+                            // Toggle active status and save
                             val toggledIsActiveProfile = profile.copy(
                                 isActive = mutableStateOf(!profile.isActive.value)
                             )
@@ -88,13 +104,15 @@ fun ProfileListScreen(
                             navController.navigate(ProfileListScreen)
                         },
                         onDeleteClick = {
+                            // Show deletion dialog
                             deletionDialogVisible = true
                             clickedProfile = profile
                         }
-                        )
+                    )
                 }
             }
 
+            // Deletion confirmation dialog
             ConfirmationDialog(
                 visible = deletionDialogVisible,
                 infoMessage = buildAnnotatedString {
@@ -105,9 +123,9 @@ fun ProfileListScreen(
                     append("\nwirklich gelöscht werden?")
                 },
                 onConfirmation = {
+                    // Delete profile and refresh UI
                     viewModel.deleteProfile(clickedProfile)
                     deletionDialogVisible = false
-                    //navigate for updating UI
                     navController.navigate(ProfileListScreen)
                 },
                 onDismiss = {
@@ -115,7 +133,8 @@ fun ProfileListScreen(
                 }
             )
 
-            if (viewModel.state.value.appProfiles.isEmpty() && !viewModel.state.value.error.isNotBlank()){
+            // Empty state
+            if (viewModel.state.value.appProfiles.isEmpty() && !viewModel.state.value.error.isNotBlank()) {
                 Text(
                     text = "Keine Profile vorhanden",
                     color = MaterialTheme.colorScheme.error,
@@ -127,6 +146,7 @@ fun ProfileListScreen(
                 )
             }
 
+            // Error state
             if (viewModel.state.value.error.isNotBlank()) {
                 Text(
                     text = viewModel.state.value.error,
@@ -139,9 +159,10 @@ fun ProfileListScreen(
                 )
             }
 
+            // Loading state
             if (viewModel.state.value.isLoading) {
-                CircularProgressIndicator(modifier = Modifier
-                    .align(Alignment.Center)
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
                 )
             }
         }

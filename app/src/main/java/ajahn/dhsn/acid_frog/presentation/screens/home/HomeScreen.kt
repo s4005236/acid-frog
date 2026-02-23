@@ -27,6 +27,11 @@ import androidx.navigation.NavController
 
 /**
  * The standard or first-seen screen of the application, as defined in Navigation: [NavHost][ajahn.dhsn.acid_frog.MainActivity].
+ *
+ * This screen provides navigation options to manage profiles and scan products.
+ * It uses a [Scaffold] with a top bar and two main action buttons for profile management and product scanning.
+ *
+ * @param navController The [NavController] for handling navigation to other screens.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,6 +51,7 @@ fun HomeScreen(
             Column(
                 verticalArrangement = Arrangement.spacedBy(60.dp)
             ) {
+                // Profile Management Section
                 Column(
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -54,17 +60,18 @@ fun HomeScreen(
                     ElevatedButton(
                         onClick = {
                             navController.navigate(ProfileListScreen)
-                        }, modifier = Modifier.size(200.dp)
+                        },
+                        modifier = Modifier.size(200.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Person,
                             contentDescription = "Manage Profiles",
-                            modifier = Modifier
-                                .fillMaxSize()
+                            modifier = Modifier.fillMaxSize()
                         )
                     }
                 }
 
+                // Product Scanning Section
                 Column(
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -73,17 +80,16 @@ fun HomeScreen(
                     Button(
                         onClick = {
                             navController.navigate(BarcodeScanScreen)
-                        }, modifier = Modifier.size(200.dp)
+                        },
+                        modifier = Modifier.size(200.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Search,
                             contentDescription = "Start Scanning",
-                            modifier = Modifier
-                                .fillMaxSize()
+                            modifier = Modifier.fillMaxSize()
                         )
                     }
                 }
-
             }
         }
     }

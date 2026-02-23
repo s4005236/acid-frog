@@ -7,6 +7,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 // Set of Material typography styles to start with
+/**
+ * Typography configuration for the Acid Frog app.
+ *
+ * This object defines the typography styles used throughout the app, including:
+ * - [bodyLarge]: Default text style for large body text.
+ * - [titleLarge]: Style for large titles.
+ * - [labelSmall]: Style for small labels.
+ *
+ * Each style specifies font family, weight, size, line height, and letter spacing.
+ */
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
