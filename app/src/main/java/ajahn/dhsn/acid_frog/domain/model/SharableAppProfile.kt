@@ -3,9 +3,16 @@ package ajahn.dhsn.acid_frog.domain.model
 import kotlinx.serialization.Serializable
 
 /**
- * Class used for sharing AppProfiles over deep links.
+ * Data class representing a serializable version of an appProfile.
  *
- * The mutableState of [AppProfile] makes it difficult to serialize the data. That's why this "twin" is used.
+ * This class is designed to be serialized and shared across different platforms or components.
+ * It contains essential profile information such as ID, name, allergens, and activity status.
+ * The `@Serializable` annotation enables automatic serialization/deserialization.
+ *
+ * @property id The unique identifier of the profile.
+ * @property name The name of the user.
+ * @property allergens A list of allergens associated with the user.
+ * @property isActive Indicates whether the profile is currently active.
  */
 @Serializable
 data class SharableAppProfile(
