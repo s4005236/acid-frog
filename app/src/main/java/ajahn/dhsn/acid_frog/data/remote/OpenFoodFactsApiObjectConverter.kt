@@ -33,6 +33,7 @@ object OpenFoodFactsApiObjectConverter {
                     it.trim().substringAfter(":")
                 }
                 .distinct()
+                .filterNot { it.isEmpty() }
         )
     }
 }
