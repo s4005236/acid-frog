@@ -22,18 +22,28 @@ This is where Acid Frog comes in. Making it easy to tell if a product is suitabl
 
 # Screenshots and Features
 
-<img src="app/src/main/res/drawable/acid_frog_sh_main_menu.png" alt="HomeScreen Screenshot" width="300">
+<p align="center">
+  <img src="app/src/main/res/drawable/acid_frog_sh_main_menu.png" alt="Home Screen Light" height="400">
+  <img src="app/src/main/res/drawable/acid_frog_sh_main_menu_dark.png" alt="Home Screen Dark" height="400">
+</p>
 
-Home Screen
+> Home Screen
 
-(sh)
+<p align="center">
+  <img src="app/src/main/res/drawable/acid_frog_sh_profile_management.png" alt="Profile Management Screen" height="400">
+  <img src="app/src/main/res/drawable/acid_frog_sh_profile_detail.png" alt="Profile Detail Screen" height="400">
+</p>
+
+> Profile Management and Detail Screen
 
 manage profiles, create, edit and delete
 
-(sh)
+<img src="app/src/main/res/drawable/acid_frog_sh_scanner_screen.png" alt="Google Scanner Screen" height="400">
+> Scanner Screen
 
-scan products
-
-(sh)
+<p align="center">
+  <img src="app/src/main/res/drawable/acid_frog_sh_scan_result_negative.png" alt="Warning Result Screen" height="400">
+  <img src="app/src/main/res/drawable/acid_frog_sh_scan_result_positive.png" alt="OK Result Screen" height="400">
+</p>
 
 get instant results (green or red)
