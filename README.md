@@ -22,28 +22,37 @@ This is where Acid Frog comes in. Making it easy to tell if a product is suitabl
 
 # Screenshots and Features
 
+## Home Screen
+
+The application provides a light and dark mode.
+
 <p align="center">
   <img src="app/src/main/res/drawable/acid_frog_sh_main_menu.png" alt="Home Screen Light" height="400">
   <img src="app/src/main/res/drawable/acid_frog_sh_main_menu_dark.png" alt="Home Screen Dark" height="400">
 </p>
 
-> Home Screen
+## Profile Management and Detail Screen
+
+Create, edit and delete different profiles.
 
 <p align="center">
   <img src="app/src/main/res/drawable/acid_frog_sh_profile_management.png" alt="Profile Management Screen" height="400">
   <img src="app/src/main/res/drawable/acid_frog_sh_profile_detail.png" alt="Profile Detail Screen" height="400">
 </p>
 
-> Profile Management and Detail Screen
+## Scanner Screen
 
-manage profiles, create, edit and delete
+Scan product using the in-app barcode scanner.
 
+<p align="center">
 <img src="app/src/main/res/drawable/acid_frog_sh_scanner_screen.png" alt="Google Scanner Screen" height="400">
-> Scanner Screen
+</p>
+
+## Result Screen
+
+Instantly see the result of your scan.
 
 <p align="center">
   <img src="app/src/main/res/drawable/acid_frog_sh_scan_result_negative.png" alt="Warning Result Screen" height="400">
   <img src="app/src/main/res/drawable/acid_frog_sh_scan_result_positive.png" alt="OK Result Screen" height="400">
 </p>
-
-get instant results (green or red)
