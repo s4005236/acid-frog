@@ -6,11 +6,6 @@
     </p>
 </div>
 
-# Content
-
-- [About](README.md#about)
-- [How to Use?](README.md#how-to-use)
-
 # About
 
 In today's world, we have the opportunity to create various foods and beverages with influences from all over the world. Having a diverse and nutrient-rich diet is not only beneficial in terms of health reasons. It also bears the capability of enhancing the joy at the table. Especially when new eating experiences are shared with others at special occasions.
