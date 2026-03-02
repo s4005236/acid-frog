@@ -20,11 +20,11 @@ In those situations, we often resume by buying "the same old", to avoid irritati
 
 This is where Acid Frog comes in. Making it easy to tell if a product is suitable for a group of people, or if you should leave it at the store.
 
-# Screenshots and Features
+# Screenshots and Feature Overview
 
 ## Home Screen
 
-The application provides a light and dark mode.
+The application provides a light and dark mode:
 
 <p align="center">
   <img src="app/src/main/res/drawable/acid_frog_sh_main_menu.png" alt="Home Screen Light" height="400">
@@ -33,7 +33,7 @@ The application provides a light and dark mode.
 
 ## Profile Management and Detail Screen
 
-Create, edit and delete different profiles.
+Create, edit and delete different profiles:
 
 <p align="center">
   <img src="app/src/main/res/drawable/acid_frog_sh_profile_management.png" alt="Profile Management Screen" height="400">
@@ -42,7 +42,7 @@ Create, edit and delete different profiles.
 
 ## Scanner Screen
 
-Scan product using the in-app barcode scanner.
+Scan product using the in-app barcode scanner:
 
 <p align="center">
 <img src="app/src/main/res/drawable/acid_frog_sh_scanner_screen.png" alt="Google Scanner Screen" height="400">
@@ -50,7 +50,7 @@ Scan product using the in-app barcode scanner.
 
 ## Result Screen
 
-Instantly see the result of your scan.
+Instantly see the result of your scan:
 
 <p align="center">
   <img src="app/src/main/res/drawable/acid_frog_sh_scan_result_negative.png" alt="Warning Result Screen" height="400">
