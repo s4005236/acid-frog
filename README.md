@@ -22,9 +22,9 @@ This is where Acid Frog comes in. Making it easy to tell if a product is suitabl
 
 # Screenshots and Features
 
-![Alt text](./app/src/main/res/drawable/acid_frog_sh_main_menu.png "Alt test")
+<img src="app/src/main/res/drawable/acid_frog_sh_main_menu.png" alt="HomeScreen Screenshot" width="300">
 
-Main menu
+Home Screen
 
 (sh)
 
