@@ -20,54 +20,20 @@ In those situations, we often resume by buying "the same old", to avoid irritati
 
 This is where Acid Frog comes in. Making it easy to tell if a product is suitable for a group of people, or if you should leave it at the store.
 
-# How to Use?
+# Screenshots and Features
 
-## Step 1: Add some profiles
+![Alt text](./app/src/main/res/drawable/acid_frog_sh_main_menu.png "Alt test")
 
-There are two way to add new profiles:
+Main menu
 
-### 1. Using the profile management tab:
+(sh)
 
-(picture of homescreen, highlight "manage profiles")
+manage profiles, create, edit and delete
 
-- Tap on "Manage profiles"
+(sh)
 
-(picture of profileListscreen, pointing to "Create new")
+scan products
 
-- Tap on "Add new Profile"
+(sh)
 
-(picture of profileDetailScreen, pointing to "Save")
-
-- Enter a name, whether the profile should be active and select all allergens for this profile. Save profile after all data is input.
-
-### 2. Importing a product through a link from another user:
-
-(another user: export profile, show "share profile" menu in profileDetailView)
-
-(show android export screen)
-
-- Create a link and share it with another person.
-
----
-
-(show putting into chrome search bar, clicking on result)
-
-- Put the link into the search bar of your browser.
-
-(show detail view opening)
-
-- After following the link, the detail view of the newly added profile is shown.
-
-## Step 2: Scan a product
-
-(picture of homescreen, highlight "scan products")
-
-- Tap on "Scan Products"
-
-(picture of barcodescanner window)
-
-- Use the camera to scan the barcode of a product.
-
-(picture of scanresult Screen)
-
-- View the results. This shows, how many profiles are affected (1) and with ingredients are causing conflicts with which profiles.
+get instant results (green or red)
