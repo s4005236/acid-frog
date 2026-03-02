@@ -22,6 +22,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * Composable item for displaying a profile in a list.
+ *
+ * This component renders a profile as a row with a toggle for active status, the profile name,
+ * and a delete button. It is typically used in a list or lazy column to display multiple profiles.
+ *
+ * @param appProfile The [AppProfile] to display.
+ * @param onItemClick Callback invoked when the profile item is clicked.
+ * @param onDeleteClick Callback invoked when the delete button is clicked.
+ * @param onIsActiveToggle Callback invoked when the active status toggle is switched.
+ */
 @Composable
 fun ProfileListItem(
     appProfile: AppProfile,
@@ -29,6 +40,7 @@ fun ProfileListItem(
     onDeleteClick: (AppProfile) -> Unit,
     onIsActiveToggle: (AppProfile) -> Unit
 ) {
+    // Local state for the active button (not used directly; kept for reference)
     var isActiveButtonState by remember { mutableStateOf(appProfile.isActive) }
 
     Row(
@@ -40,25 +52,26 @@ fun ProfileListItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
-            horizontalArrangement = Arrangement
-            .spacedBy(20.dp)
-        ){
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            // Toggle for active/inactive status
             Switch(
                 checked = appProfile.isActive.value,
-                onCheckedChange = {
-                    onIsActiveToggle(appProfile)
-                                  },
+                onCheckedChange = { onIsActiveToggle(appProfile) }
             )
 
+            // Profile name
             Text(
                 style = Typography.titleMedium,
                 text = appProfile.name.value
             )
         }
 
+        // Delete button
         IconButton(onClick = { onDeleteClick(appProfile) }) {
             Icon(
-                imageVector = Icons.Default.Delete, contentDescription = "Delete profile"
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Delete profile"
             )
         }
     }

@@ -26,21 +26,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
+/**
+ * Composable floating action button for profile list actions.
+ *
+ * This component provides a toggleable floating action button that expands to show options
+ * for adding a new profile or importing a profile. It is typically used in profile list screens
+ * to provide quick access to profile creation and import features.
+ *
+ * @param navController The [NavController] for handling navigation to other screens.
+ */
 @Composable
 fun ProfileListFloatingActionButton(
     navController: NavController,
-
-    ) {
+) {
+    // State to control the visibility of the expanded action buttons
     var toggleVisibility by remember { mutableStateOf(false) }
-
-
-//    navController.navigate(ProfileDetailScreen(
-//        profileId = 0L
-//    ))
 
     Column(
         horizontalAlignment = Alignment.End
-    ){
+    ) {
+        // Animated visibility for the expanded action buttons
         AnimatedVisibility(
             visible = toggleVisibility,
             enter = fadeIn() + expandVertically(),
@@ -49,23 +54,31 @@ fun ProfileListFloatingActionButton(
             content = {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
-                ){
+                ) {
+                    // Button for adding a new profile
                     Button(
-                        onClick = {},
-                    ){
+                        onClick = {
+                            // TODO: Navigate to add profile screen
+                        },
+                    ) {
                         Icon(Icons.Default.AccountCircle, contentDescription = "Add Profile", modifier = Modifier.padding(8.dp))
                         Text("Hinzufügen")
                     }
 
+                    // Button for importing a profile
                     Button(
-                        onClick = {}
-                    ){
+                        onClick = {
+                            // TODO: Navigate to import profile screen
+                        }
+                    ) {
                         Icon(Icons.Default.Email, contentDescription = "Add Profile", modifier = Modifier.padding(8.dp))
-                        Text("Importieren")}
+                        Text("Importieren")
+                    }
                 }
             }
-            )
+        )
 
+        // Main floating action button to toggle visibility
         FloatingActionButton(
             onClick = {
                 toggleVisibility = !toggleVisibility

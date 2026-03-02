@@ -24,6 +24,16 @@ import java.io.IOException
 import java.net.URLEncoder
 import androidx.core.net.toUri
 
+/**
+ * ViewModel responsible for managing profile details, including fetching, saving, deleting, and sharing profiles.
+ *
+ * This ViewModel coordinates the retrieval of allergen lists and profile data, handles profile operations,
+ * and exposes the state of these operations to the UI through [state].
+ *
+ * @property productRepository Repository for accessing product and allergen data.
+ * @property profileRepository Repository for accessing profile data.
+ * @property state The current state of the profile detail operation, exposed as a [State] object.
+ */
 @HiltViewModel
 class ProfileDetailViewModel @Inject constructor(
     private val productRepository: ProductRepository,
@@ -34,9 +44,15 @@ class ProfileDetailViewModel @Inject constructor(
     val state: State<ProfileDetailState> = _state
 
     init {
+        // Fetch all allergens on initialization
         getAllAllergens()
     }
 
+    /**
+     * Fetches the list of all allergens.
+     *
+     * This function retrieves the list of allergens from the repository and updates the state accordingly.
+     */
     private fun getAllAllergens() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -44,7 +60,6 @@ class ProfileDetailViewModel @Inject constructor(
                     _state.value = state.value.copy(isLoading = true)
 
                     val response = productRepository.getAllAllergens()
-
                     when (response) {
                         is ResponseWrapper.Success -> {
                             _state.value = state.value.copy(
@@ -52,7 +67,6 @@ class ProfileDetailViewModel @Inject constructor(
                                 allergens = response.data ?: emptyList()
                             )
                         }
-
                         is ResponseWrapper.Error -> {
                             _state.value = state.value.copy(
                                 isLoading = false,
@@ -63,7 +77,7 @@ class ProfileDetailViewModel @Inject constructor(
                 } catch (e: HttpException) {
                     _state.value = state.value.copy(
                         isLoading = false,
-                        error = e.localizedMessage ?: "An unexpected error occured"
+                        error = e.localizedMessage ?: "An unexpected error occurred"
                     )
                 } catch (e: IOException) {
                     _state.value = state.value.copy(
@@ -71,20 +85,21 @@ class ProfileDetailViewModel @Inject constructor(
                         error = "Couldn't reach server. Check your internet connection."
                     )
                 }
-
             }
         }
     }
 
+    /**
+     * Fetches a profile by its unique identifier.
+     *
+     * @param profileId The ID of the profile to fetch.
+     */
     fun getProfile(profileId: Long) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _state.value = state.value.copy(
-                    isLoading = true
-                )
+                _state.value = state.value.copy(isLoading = true)
 
                 val response = profileRepository.getProfileById(profileId)
-
                 when (response) {
                     is ResponseWrapper.Success -> {
                         _state.value = state.value.copy(
@@ -92,7 +107,6 @@ class ProfileDetailViewModel @Inject constructor(
                             appProfile = response.data
                         )
                     }
-
                     is ResponseWrapper.Error -> {
                         _state.value = state.value.copy(
                             isLoading = false,
@@ -104,55 +118,62 @@ class ProfileDetailViewModel @Inject constructor(
         }
     }
 
-    //TODO twin of saveProfile in ListViewModel, maybe put into Use Case?
+    /**
+     * Saves a profile, either by inserting a new profile or updating an existing one.
+     *
+     * @param appProfile The profile to save. If `null`, the operation is aborted.
+     */
     fun saveProfile(appProfile: AppProfile?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _state.value = state.value.copy(
-                    isLoading = true
-                )
+                _state.value = state.value.copy(isLoading = true)
 
                 if (appProfile == null) {
                     return@withContext
                 }
 
                 if (appProfile.id.value == 0L) {
+                    // Insert new profile
                     val response = profileRepository.insertProfile(appProfile)
-                    _state.value = state.value.copy(
-                        isLoading = false
-                    )
+                    _state.value = state.value.copy(isLoading = false)
                 } else {
+                    // Update existing profile
                     val response = profileRepository.updateProfile(appProfile)
-                    _state.value = state.value.copy(
-                        isLoading = false
-                    )
+                    _state.value = state.value.copy(isLoading = false)
                 }
             }
         }
     }
 
+    /**
+     * Deletes a profile.
+     *
+     * @param appProfile The profile to delete. If `null`, the operation is aborted.
+     */
     fun deleteProfile(appProfile: AppProfile?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _state.value = state.value.copy(
-                    isLoading = true
-                )
+                _state.value = state.value.copy(isLoading = true)
 
                 if (appProfile == null) {
                     return@withContext
                 }
 
                 profileRepository.deleteProfile(appProfile)
-
-                _state.value = state.value.copy(
-                    isLoading = false
-                )
+                _state.value = state.value.copy(isLoading = false)
             }
         }
     }
 
+    /**
+     * Shares a profile via a sharable link.
+     *
+     * This function encodes the profile as a JSON string, creates a sharable link, and opens a share dialog.
+     *
+     * @param context The Android context for starting the share intent.
+     * @param appProfile The profile to share.
+     */
     fun shareProfile(context: Context, appProfile: AppProfile) {
-
         val sharableAppProfile = SharableAppProfile(
             id = appProfile.id.value,
             name = appProfile.name.value,
@@ -160,9 +181,7 @@ class ProfileDetailViewModel @Inject constructor(
             isActive = appProfile.isActive.value
         )
 
-
         val jsonAppProfile: String = Json.encodeToString(sharableAppProfile)
-//
         val encodedAppProfile = URLEncoder.encode(jsonAppProfile, "UTF-8")
         val sharableLink = "app://acidfrog.app/share?data=$encodedAppProfile"
 

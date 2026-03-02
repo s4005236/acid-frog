@@ -9,6 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
+/**
+ * Dark color scheme for the Acid Frog app.
+ *
+ * This color scheme defines the colors used in dark mode, including primary, secondary, tertiary,
+ * background, surface, error, and other UI elements.
+ */
 private val DarkColorScheme = darkColorScheme(
     primary = Color(0xFFCADCAE),
     onPrimary = Color(0xFF1B211A),
@@ -51,6 +57,12 @@ private val DarkColorScheme = darkColorScheme(
     scrim = Color(0xFF000000)
 )
 
+/**
+ * Light color scheme for the Acid Frog app.
+ *
+ * This color scheme defines the colors used in light mode, including primary, secondary, tertiary,
+ * background, surface, error, and other UI elements.
+ */
 private val LightColorScheme = lightColorScheme(
     primary = Color(0xFF255F38),
     onPrimary = Color(0xFFFCF8F8),
@@ -91,32 +103,29 @@ private val LightColorScheme = lightColorScheme(
     onErrorContainer = Color(0xFF410002),
 
     scrim = Color(0xFF000000)
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
 )
 
+/**
+ * Composable function that applies the Acid Frog app theme.
+ *
+ * This function sets up the Material Design theme with the appropriate color scheme (light or dark)
+ * and typography for the Acid Frog app. It supports dynamic color on Android 12 and above.
+ *
+ * @param darkTheme Whether the theme should use a dark color scheme (defaults to system setting).
+ * @param dynamicColor Whether to use dynamic color (Android 12+ only).
+ * @param content The content to be displayed within the theme.
+ */
 @Composable
 fun AcidFrogTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            //if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
             if (darkTheme) DarkColorScheme else LightColorScheme
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
